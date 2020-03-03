@@ -30,14 +30,18 @@ const Pickle = db.define('pickle', {
       notEmpty: true
     }
   },
-  spiceLevel: {
-    type: Sequelize.ENUM('mild', 'medium', 'spicy'),
+  attributes: {
+    type: Sequelize.JSON,
     allowNull: false
-  },
-  vegetarian: {
-    type: Sequelize.BOOLEAN,
-    defaultValue: true
   }
+  // spiceLevel: {
+  //   type: Sequelize.ENUM('mild', 'medium', 'spicy'),
+  //   allowNull: false
+  // },
+  // vegetarian: {
+  //   type: Sequelize.BOOLEAN,
+  //   defaultValue: true
+  // }
 })
 
 module.exports = Pickle
