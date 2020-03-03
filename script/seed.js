@@ -18,10 +18,8 @@ async function seed() {
       description: 'delicious pickle!',
       price: 25.0,
       inventory: 17,
-      attributes: {
-        spiceLevel: 'mild',
-        vegeterian: true
-      }
+      spiceLevel: 'mild',
+      vegeterian: true
     })
   ])
 
