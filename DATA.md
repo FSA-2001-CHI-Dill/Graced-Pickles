@@ -40,7 +40,7 @@ RK: user_id
 RK: product_id
 content (required, not empty)
 (nickname)
-(created_at_date)
+created_at
 
 ## Associations
 

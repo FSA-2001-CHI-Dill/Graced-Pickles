@@ -1,14 +1,14 @@
 const User = require('./user')
 const Pickle = require('./pickle')
-const Cart = require('./cart')
+const OrderItem = require('./orderItem')
 const Order = require('./order')
 const Review = require('./review')
 
-Cart.belongsTo(Pickle)
-Pickle.hasMany(Cart)
+OrderItem.belongsTo(Pickle)
+Pickle.hasMany(OrderItem)
 
-Cart.belongsTo(User)
-User.hasMany(Cart)
+OrderItem.belongsTo(Order)
+User.hasMany(OrderItem)
 
 Order.belongsTo(User)
 User.hasMany(Order)
@@ -35,7 +35,7 @@ Pickle.hasMany(Review)
 module.exports = {
   User,
   Pickle,
-  Cart,
+  OrderItem,
   Order,
   Review
 }

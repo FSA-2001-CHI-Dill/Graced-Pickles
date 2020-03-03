@@ -1,7 +1,7 @@
 'use strict'
 
 const db = require('../server/db')
-const {Order, Pickle, User, Review, Cart} = require('../server/db/models')
+const {Order, Pickle, User, Review, OrderItem} = require('../server/db/models')
 
 async function seed() {
   await db.sync({force: true})
@@ -19,7 +19,7 @@ async function seed() {
       price: 25.0,
       inventory: 17,
       spiceLevel: 'mild',
-      vegeterian: true
+      vegetarian: true
     })
   ])
 
