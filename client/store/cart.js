@@ -1,5 +1,4 @@
 import axios from 'axios'
-import e from 'express'
 
 //action types
 // const SET_CART = 'SET_CART'
@@ -33,15 +32,8 @@ const cartReducer = (cart = [], action) => {
     // case SET_CART:
     //   return action.cart
     case ADD_TO_CART:
-      cart.find(item => {
-        if (item.id === action.pickle.id) {
-          item.quantity++
-        } else {
-          action.pickle.quantity = 1
-          cart = [...cart, action.pickle]
-        }
-      })
-      return cart
+      return [...cart, action.pickle]
+
     default:
       return cart
   }

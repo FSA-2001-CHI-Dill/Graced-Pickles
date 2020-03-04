@@ -10,7 +10,6 @@ class Cart extends React.Component {
 
   render() {
     const pickles = this.props.cart
-    console.log(pickles)
     if (!pickles.length)
       return (
         <div>
