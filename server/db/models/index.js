@@ -8,7 +8,7 @@ OrderItem.belongsTo(Pickle)
 Pickle.hasMany(OrderItem)
 
 OrderItem.belongsTo(Order)
-User.hasMany(OrderItem)
+Order.hasMany(OrderItem)
 
 Order.belongsTo(User)
 User.hasMany(Order)
