@@ -30,6 +30,10 @@ const Pickle = db.define('pickle', {
       notEmpty: true
     }
   },
+  imageUrl: {
+    type: Sequelize.TEXT,
+    defaultValue: 'https://i.ya-webdesign.com/images/pickle-rick-dab-png-2.png'
+  },
   spiceLevel: {
     type: Sequelize.ENUM('mild', 'medium', 'spicy'),
     allowNull: false

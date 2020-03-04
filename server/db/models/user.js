@@ -30,6 +30,10 @@ const User = db.define('user', {
   nickname: {
     type: Sequelize.STRING,
     defaultValue: 'pickleLover'
+  },
+  isAdmin: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false
   }
 })
 
