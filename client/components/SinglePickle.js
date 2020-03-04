@@ -29,7 +29,7 @@ class SinglePickle extends Component {
         <img src={pickle.imageUrl} />
         <p> About this pickle: {pickle.description} </p>
         <p> Price: ${pickle.price} </p>
-        <button type="button" onClick={() => this.handleClick(pickle)}>
+        <button type="button" onClick={() => this.handleClick(pickle.id)}>
           {' '}
           Add to cart
         </button>

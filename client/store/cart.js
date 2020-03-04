@@ -16,24 +16,28 @@ export const addToCart = pickle => ({
   pickle
 })
 
-// export const fetchCart = () => {
-//   return async dispatch => {
-//     try {
-//       const {data} = await axios.get('ADD API ROUTE')
-//       dispatch(setCartItems(data))
-//     } catch (err){
-//       console.log('fetch cart thunk err', err)
-//     }
-//   }
-// }
-
-const cartReducer = (cart = [], action) => {
+// cart = {
+//   product_id: qty
+// 1: 0
+// 3: 9
+//}
+// obj[key] = number(obj[key]) + 1
+const cartReducer = (cart = {}, action) => {
   switch (action.type) {
     // case SET_CART:
     //   return action.cart
-    case ADD_TO_CART:
-      return [...cart, action.pickle]
+    // try approaching as an object with two keys, id & quantity
 
+    // case ADD_TO_CART:
+    //   return [...cart, action.pickle]
+    case ADD_TO_CART:
+      if (!(action.pickle in cart)) {
+        cart[action.pickle] = 1
+        return {...cart}
+      } else {
+        cart[action.pickle]++
+        return {...cart}
+      }
     default:
       return cart
   }
