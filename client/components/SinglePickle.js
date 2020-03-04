@@ -21,7 +21,7 @@ class SinglePickle extends Component {
     return (
       <div>
         <h1>{pickle.title} </h1>
-        <p> {pickle.imageUrl} </p>
+        <img src={pickle.imageUrl} />
         <p> About this pickle: {pickle.description} </p>
         <p> Price: ${pickle.price} </p>
         <button type="button"> Add to cart</button>
