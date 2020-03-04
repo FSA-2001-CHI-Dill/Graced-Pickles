@@ -1,4 +1,5 @@
 'use strict'
+const faker = require('faker')
 
 const db = require('../server/db')
 const {Order, Pickle, User, Review, OrderItem} = require('../server/db/models')
@@ -7,25 +8,47 @@ async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
 
-  const users = await Promise.all([
-    User.create({email: 'cody@email.com', password: '123'}),
-    User.create({email: 'murphy@email.com', password: '123'})
-  ])
+  const createData = async (numOfEntries, create) => {
+    for (let i = 0; i < numOfEntries; i++) {
+      try {
+        await create()
+      } catch (err) {
+        console.log(err)
+      }
+    }
+  }
 
-  const pickles = await Promise.all([
-    Pickle.create({
-      title: 'dill',
-      description: 'delicious pickle!',
-      price: 25.0,
-      inventory: 17,
-      spiceLevel: 'mild',
-      vegetarian: true
+  const users = async numOfEntries => {
+    await createData(numOfEntries, async () => {
+      await User.create({
+        email: faker.internet.email(),
+        password: faker.internet.password()
+      })
     })
-  ])
+  }
 
-  console.log(`seeded ${users.length} users`)
-  console.log(`seeded ${pickles.length} pickle(s)`)
-  console.log(`seeded successfully`)
+  const pickles = async numOfEntries => {
+    await createData(numOfEntries, async () => {
+      await Pickle.create({
+        title: faker.lorem.word(),
+        description: faker.lorem.sentence(),
+        price: faker.finance.amount(),
+        inventory: faker.random.number(),
+        vegetarian: faker.random.boolean(),
+        spiceLevel: ['mild', 'medium', 'spicy'][Math.floor(Math.random() * 3)]
+      })
+    })
+  }
+
+  try {
+    await users(100)
+    console.log(`seeded ${users.length} users`)
+    await pickles(100)
+    console.log(`seeded ${pickles.length} pickle(s)`)
+    console.log(`seeded successfully`)
+  } catch (err) {
+    console.log(err)
+  }
 }
 
 // We've separated the `seed` function from the `runSeed` function.
