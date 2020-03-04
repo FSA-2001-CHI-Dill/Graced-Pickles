@@ -10,11 +10,14 @@ class Cart extends React.Component {
 
   render() {
     const pickles = this.props.cart
+    console.log(pickles)
     if (!pickles.length)
       return (
         <div>
           <h1>Your Shopping Cart is Empty!</h1>
-          <h2>Want to Buy Some Pickles?</h2>
+          <h2>
+            <Link to="/pickles">Check out the Pickle Store!</Link>
+          </h2>
         </div>
       )
     return (
@@ -23,8 +26,11 @@ class Cart extends React.Component {
         <div>
           {pickles.map(pickle => (
             <div key={pickle.id}>
-              <Link to={`/pickles/${pickle.id}`}> {pickle.title} </Link>$
-              {pickle.price}
+              <Link to={`/pickles/${pickle.id}`}> {pickle.title} </Link>
+              <p>
+                <img src={pickle.imageUrl} />
+              </p>
+              <p>${pickle.price}</p>
             </div>
           ))}
         </div>

@@ -1,15 +1,16 @@
 import axios from 'axios'
+import e from 'express'
 
 //action types
-const SET_CART = 'SET_CART'
+// const SET_CART = 'SET_CART'
 const ADD_TO_CART = 'ADD_TO_CART'
 const REMOVE_FROM_CART = ' REMOVE_FROM_CART'
 
 //action creators
-const setCartItems = cart => ({
-  type: SET_CART,
-  cart
-})
+// const setCartItems = cart => ({
+//   type: SET_CART,
+//   cart
+// })
 
 export const addToCart = pickle => ({
   type: ADD_TO_CART,
@@ -29,10 +30,18 @@ export const addToCart = pickle => ({
 
 const cartReducer = (cart = [], action) => {
   switch (action.type) {
-    case SET_CART:
-      return action.cart
+    // case SET_CART:
+    //   return action.cart
     case ADD_TO_CART:
-      return [...cart, action.pickle]
+      cart.find(item => {
+        if (item.id === action.pickle.id) {
+          item.quantity++
+        } else {
+          action.pickle.quantity = 1
+          cart = [...cart, action.pickle]
+        }
+      })
+      return cart
     default:
       return cart
   }
