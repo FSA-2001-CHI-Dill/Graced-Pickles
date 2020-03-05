@@ -13,6 +13,7 @@ export const fetchPickles = () => {
       const {data} = await axios.get('/api/pickles')
       dispatch(setPickles(data))
     } catch (err) {
+      // REVIEW: let's talk error handling
       console.log('Something went wrong!', err)
     }
   }

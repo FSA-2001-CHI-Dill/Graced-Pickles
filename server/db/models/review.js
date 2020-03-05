@@ -13,6 +13,7 @@ const Review = db.define('review', {
   createdAt: {
     type: Sequelize.DATE,
     get() {
+      // REVIEW: is this a display-time concern?
       return moment(this.getDataValue('createdAt')).format('DD/MM/YYYY h:mm:ss')
     }
   }

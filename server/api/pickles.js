@@ -5,6 +5,7 @@ module.exports = router
 //fetching all pickles
 router.get('/', async (req, res, next) => {
   try {
+    // REVIEW: let's talk pagination
     const pickles = await Pickle.findAll()
     res.json(pickles)
   } catch (err) {

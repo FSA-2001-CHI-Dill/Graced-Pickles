@@ -12,6 +12,11 @@ class AllPickles extends Component {
     return this.props.pickles.map(pickle => (
       <div key={pickle.id}>
         <Link to={`/pickles/${pickle.id}`}> {pickle.title} </Link>
+        {/* REVIEW: consider utility component to display prices
+          <FormattedPrice cents={pickle.price}/>
+          vs
+          {formattedPrice(pickle.price)}
+          */}
         ${pickle.price}
       </div>
     ))

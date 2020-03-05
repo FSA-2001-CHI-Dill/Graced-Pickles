@@ -25,6 +25,7 @@ const cartReducer = (cart = {}, action) => {
     case ADD_TO_CART:
       if (!(action.id in cart)) {
         cart[action.id] = 1
+        // REVIEW: this copy needs to happen before the mutation, not after
         return {...cart}
       } else {
         cart[action.id]++

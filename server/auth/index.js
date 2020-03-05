@@ -10,6 +10,8 @@ router.get('/me', (req, res, next) => {
 router.post('/login', async (req, res, next) => {
   try {
     const user = await User.findOne({where: {email: req.body.email}})
+    const sessionOrder = await Order.findOne({ /* by session id */ })
+    const userOrder = user./* get current cart */
     if (!user) {
       console.log('No such user found:', req.body.email)
       res.status(401).send('Wrong username and/or password')
@@ -45,6 +47,29 @@ router.post('/logout', (req, res) => {
 
 router.get('/me', (req, res) => {
   res.json(req.user)
+})
+
+//util.js
+function requireLogin (req, res, next) {
+  if (req.user) {
+    next();
+  }
+  else {
+    res.status(401).send("Please authenticate")
+  }
+}
+
+function requireAdmin (req, res, next) {
+  if (req.user && req.user.isAdmin) {
+    next();
+  }
+  else {
+    res.status(404).send("Not found")
+  }
+}
+
+router.get('/my-orders', requireLogin, async (req, res) => {
+    res.json(await req.user.getOrders())
 })
 
 router.use('/google', require('./google'))

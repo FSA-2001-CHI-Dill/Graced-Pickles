@@ -48,6 +48,12 @@ class Cart extends React.Component {
               <p>Quantity: {cart[pickle.id]}</p>
               <button
                 type="button"
+                {/*
+                REVIEW:
+                  consider using the props function directly?
+
+                  onClick={() => this.props.addOnePickleToCart(pickle.id)}
+                  */}
                 onClick={() => this.addOnePickle(pickle.id)}
               >
                 + Add One
@@ -77,6 +83,15 @@ const mapState = state => ({
   pickles: state.allPickles
 })
 
+// REVIEW:
+// single-expression arrow function (auto-return)
+// vs
+// arrow function with code block "{}" (manual-return)
+//
+// And threading asyncs through to redux
+//
+// mapDispatchToProps shorthand:
+// const mapDispatch = ({ fetchPickles, addOnePickleToCart: addToCart, removeOnePickleFromCart, removeOnePickleFromCart: removeFromCart})
 const mapDispatch = dispatch => ({
   loadPickles: () => dispatch(fetchPickles()),
   addOnePickleToCart: id => {
