@@ -39,8 +39,8 @@ class Cart extends React.Component {
               </p>
               <p>${pickle.price}</p>
               <p>Quantity: {cart[pickle.id]}</p>
-              <button type="button">Add One More To Cart</button>
-              <button type="button">Remove To Cart</button>
+              <button type="button">+</button>
+              <button type="button">-</button>
             </div>
           ))}
         </div>
