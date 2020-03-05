@@ -6,6 +6,7 @@ module.exports = router
 router.get('/', async (req, res, next) => {
   try {
     const pickles = await Pickle.findAll()
+    console.log(req.session)
     res.json(pickles)
   } catch (err) {
     next(err)
