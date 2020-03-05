@@ -6,6 +6,8 @@ import history from '../history'
  */
 const GET_USER = 'GET_USER'
 const REMOVE_USER = 'REMOVE_USER'
+const GET_USER_CART = 'GET_USER_CART'
+const ADD_TO_CART = 'ADD_TO_CART'
 
 /**
  * INITIAL STATE
@@ -17,7 +19,8 @@ const defaultUser = {}
  */
 const getUser = user => ({type: GET_USER, user})
 const removeUser = () => ({type: REMOVE_USER})
-
+const getUserCart = user => ({type: GET_USER_CART, user})
+const addToCart = user => ({type: ADD_TO_CART, user})
 /**
  * THUNK CREATORS
  */
@@ -56,6 +59,24 @@ export const logout = () => async dispatch => {
   }
 }
 
+export const fetchUserCart = userId => async dispatch => {
+  try {
+    const {data} = await axios.get(`${userId}/cart`)
+    dispatch(getUserCart(data))
+  } catch (err) {
+    console.log(err)
+  }
+} //component: use this.props.user.orders.orderItems to display (via map) all items in the cart associated with the user
+
+export const userAddsToCart = (userId, itemInfo) => async dispatch => {
+  try {
+    const {data} = await axios.put(`/${userId}/cart/add`, itemInfo)
+    dispatch(addToCart(data))
+  } catch (err) {
+    console.log(err)
+  }
+} //component: 1) mapDispatch, 2) the second argument this thunk takes (itemInfo) should be an object with pickleId, price, and quantity as keys.
+
 /**
  * REDUCER
  */
@@ -65,6 +86,10 @@ export default function(state = defaultUser, action) {
       return action.user
     case REMOVE_USER:
       return defaultUser
+    case GET_USER_CART:
+      return action.user
+    case ADD_TO_CART:
+      return action.user
     default:
       return state
   }
