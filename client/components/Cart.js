@@ -2,22 +2,28 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {fetchPickles} from '../store/allPickles'
+import {addToCart, removeOnePickleFromCart, removeFromCart} from '../store/cart'
 
 class Cart extends React.Component {
   componentDidMount() {
     this.props.loadPickles()
   }
-  // WRITE FUNCTIONS TO HANDLE USER INTERACTION WITH CART
-  //remove item completely
-  //add to quantity of item
-  //subtract from the quantity of item
+
+  addOnePickle = id => {
+    this.props.addOnePickleToCart(id)
+  }
+
+  removeOnePickle = id => {
+    this.props.removeOnePickleFromCart(id)
+  }
+
+  deleteFromCart = id => {
+    this.props.removePickleFromCart(id)
+  }
 
   render() {
     const {pickles, cart} = this.props
     const filteredCart = pickles.filter(pickle => pickle.id in cart)
-    console.log('cart', cart)
-
-    console.log('filteredCart', filteredCart)
     // if (!cart.length)
     //   return (
     //     <div>
@@ -38,9 +44,26 @@ class Cart extends React.Component {
                 <img src={pickle.imageUrl} />
               </p>
               <p>${pickle.price}</p>
+
               <p>Quantity: {cart[pickle.id]}</p>
-              <button type="button">+</button>
-              <button type="button">-</button>
+              <button
+                type="button"
+                onClick={() => this.addOnePickle(pickle.id)}
+              >
+                + Add One
+              </button>
+              <button
+                type="button"
+                onClick={() => this.removeOnePickle(pickle.id)}
+              >
+                - Remove One
+              </button>
+              <button
+                type="button"
+                onClick={() => this.deleteFromCart(pickle.id)}
+              >
+                Remove Pickle From Cart
+              </button>
             </div>
           ))}
         </div>
@@ -55,7 +78,16 @@ const mapState = state => ({
 })
 
 const mapDispatch = dispatch => ({
-  loadPickles: () => dispatch(fetchPickles())
+  loadPickles: () => dispatch(fetchPickles()),
+  addOnePickleToCart: id => {
+    dispatch(addToCart(id))
+  },
+  removeOnePickleFromCart: id => {
+    dispatch(removeOnePickleFromCart(id))
+  },
+  removePickleFromCart: id => {
+    dispatch(removeFromCart(id))
+  }
 })
 
 export default connect(mapState, mapDispatch)(Cart)

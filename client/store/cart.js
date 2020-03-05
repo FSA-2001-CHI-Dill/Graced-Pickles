@@ -1,18 +1,22 @@
 import axios from 'axios'
 
 //action types
-const SET_CART = 'SET_CART'
 const ADD_TO_CART = 'ADD_TO_CART'
-const REMOVE_FROM_CART = ' REMOVE_FROM_CART'
-
-//action creators
-// const setCartItems = cart => ({
-//   type: SET_CART,
-//   cart
-// })
+const REMOVE_FROM_CART = 'REMOVE_FROM_CART'
+const REMOVE_ONE_FROM_CART = 'REMOVE_ONE_FROM_CART'
 
 export const addToCart = id => ({
   type: ADD_TO_CART,
+  id
+})
+
+export const removeOnePickleFromCart = id => ({
+  type: REMOVE_ONE_FROM_CART,
+  id
+})
+
+export const removeFromCart = id => ({
+  type: REMOVE_FROM_CART,
   id
 })
 
@@ -26,6 +30,16 @@ const cartReducer = (cart = {}, action) => {
         cart[action.id]++
         return {...cart}
       }
+    case REMOVE_ONE_FROM_CART:
+      cart[action.id]--
+      if (cart[action.id] === 0) {
+        delete cart[action.id]
+        return {...cart}
+      }
+      return {...cart}
+    case REMOVE_FROM_CART:
+      delete cart[action.id]
+      return {...cart}
     default:
       return cart
   }
