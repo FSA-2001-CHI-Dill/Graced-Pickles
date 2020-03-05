@@ -13,8 +13,8 @@ class SinglePickle extends Component {
     this.props.reset()
   }
 
-  handleClick = pickle => {
-    this.props.addPicklesToCart(pickle)
+  handleClick = id => {
+    this.props.addPicklesToCart(id)
   }
 
   render() {
@@ -45,8 +45,8 @@ const mapState = state => ({
 const mapDispatch = dispatch => ({
   loadPickle: pickleId => dispatch(fetchSinglePickle(pickleId)),
   reset: () => dispatch(resetPickles()),
-  addPicklesToCart: pickle => {
-    dispatch(addToCart(pickle))
+  addPicklesToCart: id => {
+    dispatch(addToCart(id))
   }
 })
 
