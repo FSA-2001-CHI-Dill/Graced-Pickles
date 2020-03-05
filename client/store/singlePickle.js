@@ -21,7 +21,7 @@ export const fetchSinglePickle = pickleId => {
     } catch (err) {
       console.log('Something went wrong!', err)
       dispatch(selectPickle(err.response))
-      //this is for displaying "picke does not exist" on the user interface
+      //this is for displaying "pickle does not exist" on the user interface
     }
   }
 }

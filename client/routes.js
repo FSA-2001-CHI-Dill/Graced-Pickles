@@ -31,6 +31,8 @@ class Routes extends Component {
           <Switch>
             {/* Routes placed here are only available after logging in */}
             <Route path="/home" component={UserHome} />
+            <Route path="/pickles/:pickleId" component={SinglePickle} />
+            <Route path="/pickles" component={AllPickles} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
