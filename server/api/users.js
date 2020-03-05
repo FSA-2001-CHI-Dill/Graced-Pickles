@@ -32,6 +32,7 @@ router.get('/', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
+    // REVIEW: does user creation already exist in boilermaker?
     const user = await User.create(req.body)
     res.status(201).json(user)
   } catch (err) {
@@ -40,20 +41,24 @@ router.post('/', async (req, res, next) => {
 })
 
 router.get('/:userId', async (req, res, next) => {
-  try {
-    const user = await req.requestedUser.reload({
-      include: {
-        model: Order
-      }
-    })
-    res.json(user)
-  } catch (err) {
-    next(err)
-  }
+  //if (req.user && req.user.id === req.requestedUser.uid) {
+    try {
+      const user = await req.requestedUser.reload({
+        include: {
+          model: Order
+        }
+      })
+      res.json(user)
+    } catch (err) {
+      next(err)
+    }
+  //}
 })
 
+// REVIEW: missing param ":"
 router.put('/userId', async (req, res, next) => {
   try {
+    // REVIEW: req.body danger zone
     const user = await req.requestedUser.update(req.body)
     res.json(user)
   } catch (err) {
@@ -61,6 +66,7 @@ router.put('/userId', async (req, res, next) => {
   }
 })
 
+// REVIEW: authorization patterns
 router.delete('/:userId', async (req, res, next) => {
   try {
     await req.requestedUser.destroy()
@@ -88,6 +94,8 @@ router.get('/:userId/cart', async (req, res, next) => {
 
 //adding item to cart
 //req.body has three keys: pickleId, price, quantity
+// REVIEW: use session to get userId req.session.user is trustworthy
+// PUT /api/cart
 router.put('/:userId/cart/add', async (req, res, next) => {
   try {
     const [order, created] = await Order.findOrCreate({
@@ -106,6 +114,7 @@ router.put('/:userId/cart/add', async (req, res, next) => {
     if (item) {
       await item.update({
         quantity: item.quantity + req.body.quantity,
+        // REVIEW: don't trust customers to tell us the price
         price: req.body.price
       })
     } else {
@@ -117,6 +126,7 @@ router.put('/:userId/cart/add', async (req, res, next) => {
       })
     }
 
+    // REVIEW: what data should this return?
     const user = await req.requestedUser.reload({
       include: {model: Order, include: {model: OrderItem}}
     })

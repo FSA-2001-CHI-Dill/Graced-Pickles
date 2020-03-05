@@ -26,7 +26,7 @@ if (process.env.NODE_ENV === 'test') {
  * keys as environment variables, so that they can still be read by the
  * Node process on process.env
  */
-if (process.env.NODE_ENV !== 'production') require('../secrets')
+
 
 // passport registration
 passport.serializeUser((user, done) => done(null, user.id))
@@ -39,6 +39,22 @@ passport.deserializeUser(async (id, done) => {
     done(err)
   }
 })
+
+// Order.belongsTo(User)
+// Order.belongsTo(Session)
+
+function orderMiddleware (req, res, next) {
+  if (req.user) {
+    req.getOrder = async () =>  Order.findOrCreate({ where: { userId: req.user.id } })
+    next()
+  }
+  else {
+    req.getOrder = async () => Order.findOrCreate({ where: { sessionId: req.session.id } })
+    next()
+  }
+}
+
+
 
 const createApp = () => {
   // logging middleware
@@ -62,6 +78,7 @@ const createApp = () => {
   )
   app.use(passport.initialize())
   app.use(passport.session())
+  app.use(orderMiddleware);
 
   // auth and api routes
   app.use('/auth', require('./auth'))

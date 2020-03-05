@@ -20,6 +20,15 @@ class SinglePickle extends Component {
   render() {
     const {pickle} = this.props
 
+    if (pickle.error) {
+      return (
+        <button>Retry</button>
+      )
+    }
+    if (pickle.loading) {
+    }
+    // REVIEW: I like that there is error handling here.
+    // would like to walk through where the status comes from
     if (pickle.status === 404) return <h2> Pickle does not exist </h2>
     if (!pickle.id) return <h2> Loading </h2>
 

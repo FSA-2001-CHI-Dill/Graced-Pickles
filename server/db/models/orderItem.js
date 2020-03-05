@@ -7,6 +7,7 @@ const OrderItem = db.define('orderItem', {
     defaultValue: 1
   },
   price: {
+    // REVIEW: discuss INTEGER type
     type: Sequelize.FLOAT,
     allowNull: false
   }
