@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {fetchSinglePickle, resetPickles} from '../store/singlePickle'
 import {addToCart} from '../store/cart'
-import {userAddsToCart} from '../store/user'
+import {userAddToCart} from '../store/userCart'
 
 class SinglePickle extends Component {
   componentDidMount() {
@@ -16,7 +16,7 @@ class SinglePickle extends Component {
 
   handleClick = pickle => {
     if (this.props.isLoggedIn) {
-      this.props.userAddsToCart(this.props.user.id, pickle)
+      this.props.userAddToCart(pickle)
     } else {
       this.props.addPicklesToCart(pickle.id)
     }
@@ -55,7 +55,7 @@ const mapDispatch = dispatch => ({
   addPicklesToCart: id => {
     dispatch(addToCart(id))
   },
-  userAddsToCart: (userId, item) => dispatch(userAddsToCart(userId, item))
+  userAddToCart: item => dispatch(userAddToCart(item))
 })
 
 export default connect(mapState, mapDispatch)(SinglePickle)

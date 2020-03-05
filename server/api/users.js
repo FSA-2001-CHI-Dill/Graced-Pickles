@@ -1,22 +1,9 @@
 const router = require('express').Router()
 const {User, Order, OrderItem} = require('../db/models')
+const {requireLogin, requireAdmin} = require('../util')
 module.exports = router
 
-// for any /users/:userId routes, this piece of middleware
-// will be executed, and put the user on `req.requestedUser`
-router.param('userId', async (req, res, next, userId) => {
-  try {
-    const user = await User.findByPk(userId)
-    if (!user) throw Error
-    req.requestedUser = user
-    next()
-    return null
-  } catch (err) {
-    next(err)
-  }
-})
-
-router.get('/', async (req, res, next) => {
+router.get('/', requireAdmin, async (req, res, next) => {
   try {
     const users = await User.findAll({
       // explicitly select only the id and email fields - even though
@@ -30,42 +17,33 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-router.post('/', async (req, res, next) => {
-  try {
-    const user = await User.create(req.body)
-    res.status(201).json(user)
-  } catch (err) {
-    next(err)
-  }
-})
+// router.get('/:userId', async (req, res, next) => {
+//   try {
+//     const user = await req.requestedUser.reload({
+//       include: {
+//         model: Order
+//       }
+//     })
+//     res.json(user)
+//   } catch (err) {
+//     next(err)
+//   }
+// })
 
-router.get('/:userId', async (req, res, next) => {
-  try {
-    const user = await req.requestedUser.reload({
-      include: {
-        model: Order
-      }
-    })
-    res.json(user)
-  } catch (err) {
-    next(err)
-  }
-})
+// router.put('/:userId', async (req, res, next) => {
+//   try {
+//     const user = await req.requestedUser.update(req.body)
+//     res.json(user)
+//   } catch (err) {
+//     next(err)
+//   }
+// })
 
-router.put('/:userId', async (req, res, next) => {
-  try {
-    const user = await req.requestedUser.update(req.body)
-    res.json(user)
-  } catch (err) {
-    next(err)
-  }
-})
-
-router.delete('/:userId', async (req, res, next) => {
-  try {
-    await req.requestedUser.destroy()
-    res.status(204).end()
-  } catch (err) {
-    next(err)
-  }
-})
+// router.delete('/:userId', async (req, res, next) => {
+//   try {
+//     await req.requestedUser.destroy()
+//     res.status(204).end()
+//   } catch (err) {
+//     next(err)
+//   }
+// })

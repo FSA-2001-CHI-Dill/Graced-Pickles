@@ -5,19 +5,20 @@ const VIEW_CART = 'VIEW_CART'
 
 const viewCart = cart => ({type: VIEW_CART, cart})
 
-export const fetchCart = userId => async dispatch => {
+export const fetchCart = () => async dispatch => {
   try {
-    const {data} = await axios.get(`/api/cart/${userId}`)
+    const {data} = await axios.get('/api/cart')
+    console.log('data from server', data)
     dispatch(viewCart(data))
   } catch (err) {
     console.log(err)
   }
 }
 
-export const addsToCart = (userId, itemInfo) => async dispatch => {
+export const userAddToCart = pickle => async dispatch => {
   try {
-    const {data} = await axios.put(`/api/cart/add/${userId}`, itemInfo)
-    dispatch(viewCart(data))
+    await axios.put('/api/cart/add', pickle)
+    // dispatch(viewCart(data))
   } catch (err) {
     console.log(err)
   }
