@@ -6,8 +6,6 @@ import history from '../history'
  */
 const GET_USER = 'GET_USER'
 const REMOVE_USER = 'REMOVE_USER'
-const GET_USER_CART = 'GET_USER_CART'
-const ADD_TO_CART = 'ADD_TO_CART'
 
 /**
  * INITIAL STATE
@@ -19,8 +17,7 @@ const defaultUser = {}
  */
 const getUser = user => ({type: GET_USER, user})
 const removeUser = () => ({type: REMOVE_USER})
-const getUserCart = user => ({type: GET_USER_CART, user})
-const addToCart = user => ({type: ADD_TO_CART, user})
+
 /**
  * THUNK CREATORS
  */
@@ -62,7 +59,7 @@ export const logout = () => async dispatch => {
 export const fetchUserCart = userId => async dispatch => {
   try {
     const {data} = await axios.get(`${userId}/cart`)
-    dispatch(getUserCart(data))
+    dispatch(getUser(data))
   } catch (err) {
     console.log(err)
   }
@@ -71,7 +68,7 @@ export const fetchUserCart = userId => async dispatch => {
 export const userAddsToCart = (userId, itemInfo) => async dispatch => {
   try {
     const {data} = await axios.put(`/${userId}/cart/add`, itemInfo)
-    dispatch(addToCart(data))
+    dispatch(getUser(data))
   } catch (err) {
     console.log(err)
   }
@@ -86,10 +83,6 @@ export default function(state = defaultUser, action) {
       return action.user
     case REMOVE_USER:
       return defaultUser
-    case GET_USER_CART:
-      return action.user
-    case ADD_TO_CART:
-      return action.user
     default:
       return state
   }
