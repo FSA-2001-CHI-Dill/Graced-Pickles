@@ -24,15 +24,15 @@ class Cart extends React.Component {
   render() {
     const {pickles, cart} = this.props
     const filteredCart = pickles.filter(pickle => pickle.id in cart)
-    // if (!cart.length)
-    //   return (
-    //     <div>
-    //       <h1>Your Shopping Cart is Empty!</h1>
-    //       <h2>
-    //         <Link to="/pickles">Check out the Pickle Store!</Link>
-    //       </h2>
-    //     </div>
-    //   )
+    if (!Object.keys(cart).length)
+      return (
+        <div>
+          <h1>Your Shopping Cart is Empty!</h1>
+          <h2>
+            <Link to="/pickles">Check out the Pickle Store!</Link>
+          </h2>
+        </div>
+      )
     return (
       <div>
         <h1>Your Orders</h1>

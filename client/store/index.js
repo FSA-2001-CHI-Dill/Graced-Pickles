@@ -20,4 +20,4 @@ export * from './user'
 //user = {}
 //allPickles = []
 //singlePickle = {}
-//cart = []
+//cart = {}
