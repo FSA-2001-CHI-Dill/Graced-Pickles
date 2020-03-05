@@ -40,34 +40,34 @@ async function seed() {
     })
   }
 
-  const orders = async numOfEntries => {
-    await createData(numOfEntries, async () => {
-      await Order.create({
-        status: ['created', 'processing', 'cancelled', 'completed'][
-          Math.floor(Math.random() * 4)
-        ],
-        orderDate: faker.date.between('2015-01-01', '2020-03-01'),
-        userId: Math.floor(Math.random() * 99)
-      })
-    })
-  }
+  // const orders = async numOfEntries => {
+  //   await createData(numOfEntries, async () => {
+  //     await Order.create({
+  //       status: ['created', 'processing', 'cancelled', 'completed'][
+  //         Math.floor(Math.random() * 4)
+  //       ],
+  //       orderDate: faker.date.between('2015-01-01', '2020-03-01'),
+  //       userId: Math.floor(Math.random() * 99)
+  //     })
+  //   })
+  // }
 
-  const orderItems = async numOfEntries => {
-    await createData(numOfEntries, async () => {
-      await OrderItem.create({
-        quantity: Math.floor(Math.random() * 10),
-        price: faker.finance.amount(),
-        orderId: Math.floor(Math.random() * 99),
-        pickleId: Math.floor(Math.random() * 99)
-      })
-    })
-  }
+  // const orderItems = async numOfEntries => {
+  //   await createData(numOfEntries, async () => {
+  //     await OrderItem.create({
+  //       quantity: Math.floor(Math.random() * 10),
+  //       price: faker.finance.amount(),
+  //       orderId: Math.floor(Math.random() * 99),
+  //       pickleId: Math.floor(Math.random() * 99)
+  //     })
+  //   })
+  // }
 
   try {
     await users(100)
     await pickles(100)
-    await orders(100)
-    await orderItems(100)
+    // await orders(100)
+    // await orderItems(100)
     console.log(`seeded successfully`)
   } catch (err) {
     console.log(err)
