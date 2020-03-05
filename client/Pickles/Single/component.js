@@ -1,7 +1,7 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import {fetchSinglePickle, resetPickles} from '../store/singlePickle'
-import {addToCart} from '../store/cart'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { fetchSinglePickle, resetPickles } from './redux'
+import { addToCart } from '../../allDispatch'
 
 class SinglePickle extends Component {
   componentDidMount() {
@@ -18,7 +18,7 @@ class SinglePickle extends Component {
   }
 
   render() {
-    const {pickle} = this.props
+    const { pickle } = this.props
 
     if (pickle.status === 404) return <h2> Pickle does not exist </h2>
     if (!pickle.id) return <h2> Loading </h2>

@@ -1,7 +1,7 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import {fetchPickles} from '../store/allPickles'
-import {Link} from 'react-router-dom'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { fetchPickles } from './redux'
+import { Link } from 'react-router-dom'
 
 class AllPickles extends Component {
   componentDidMount() {

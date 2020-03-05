@@ -1,8 +1,8 @@
 import React from 'react'
-import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
-import {fetchPickles} from '../store/allPickles'
-import {addToCart, removeOnePickleFromCart, removeFromCart} from '../store/cart'
+import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
+import { fetchPickles } from '../Pickles/All/redux'
+import { addToCart, removeOnePickleFromCart, removeFromCart } from './redux'
 
 class Cart extends React.Component {
   componentDidMount() {
@@ -22,7 +22,7 @@ class Cart extends React.Component {
   }
 
   render() {
-    const {pickles, cart} = this.props
+    const { pickles, cart } = this.props
     const filteredCart = pickles.filter(pickle => pickle.id in cart)
     if (!Object.keys(cart).length)
       return (

@@ -15,8 +15,8 @@ const defaultUser = {}
 /**
  * ACTION CREATORS
  */
-const getUser = user => ({type: GET_USER, user})
-const removeUser = () => ({type: REMOVE_USER})
+const getUser = user => ({ type: GET_USER, user })
+const removeUser = () => ({ type: REMOVE_USER })
 
 /**
  * THUNK CREATORS
@@ -33,9 +33,9 @@ export const me = () => async dispatch => {
 export const auth = (email, password, method) => async dispatch => {
   let res
   try {
-    res = await axios.post(`/auth/${method}`, {email, password})
+    res = await axios.post(`/auth/${method}`, { email, password })
   } catch (authError) {
-    return dispatch(getUser({error: authError}))
+    return dispatch(getUser({ error: authError }))
   }
 
   try {
@@ -58,7 +58,7 @@ export const logout = () => async dispatch => {
 
 export const fetchUserCart = userId => async dispatch => {
   try {
-    const {data} = await axios.get(`${userId}/cart`)
+    const { data } = await axios.get(`${userId}/cart`)
     dispatch(getUser(data))
   } catch (err) {
     console.log(err)
@@ -67,7 +67,7 @@ export const fetchUserCart = userId => async dispatch => {
 
 export const userAddsToCart = (userId, itemInfo) => async dispatch => {
   try {
-    const {data} = await axios.put(`/${userId}/cart/add`, itemInfo)
+    const { data } = await axios.put(`/${userId}/cart/add`, itemInfo)
     dispatch(getUser(data))
   } catch (err) {
     console.log(err)
@@ -77,7 +77,7 @@ export const userAddsToCart = (userId, itemInfo) => async dispatch => {
 /**
  * REDUCER
  */
-export default function(state = defaultUser, action) {
+export default function (state = defaultUser, action) {
   switch (action.type) {
     case GET_USER:
       return action.user

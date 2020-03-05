@@ -25,21 +25,21 @@ const cartReducer = (cart = {}, action) => {
     case ADD_TO_CART:
       if (!(action.id in cart)) {
         cart[action.id] = 1
-        return {...cart}
+        return { ...cart }
       } else {
         cart[action.id]++
-        return {...cart}
+        return { ...cart }
       }
     case REMOVE_ONE_FROM_CART:
       cart[action.id]--
       if (cart[action.id] === 0) {
         delete cart[action.id]
-        return {...cart}
+        return { ...cart }
       }
-      return {...cart}
+      return { ...cart }
     case REMOVE_FROM_CART:
       delete cart[action.id]
-      return {...cart}
+      return { ...cart }
     default:
       return cart
   }
