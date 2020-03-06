@@ -24,6 +24,15 @@ export const userAddToCart = pickle => async dispatch => {
   }
 }
 
+export const userRemoveOneFromCart = pickle => async dispatch => {
+  try {
+    const {data} = await axios.put('/api/cart/remove', pickle)
+    dispatch(viewCart(data))
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 const userCartReducer = (userCart = [], action) => {
   switch (action.type) {
     case VIEW_CART:
