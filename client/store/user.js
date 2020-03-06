@@ -56,24 +56,6 @@ export const logout = () => async dispatch => {
   }
 }
 
-export const fetchUserCart = userId => async dispatch => {
-  try {
-    const {data} = await axios.get(`${userId}/cart`)
-    dispatch(getUser(data))
-  } catch (err) {
-    console.log(err)
-  }
-} //component: use this.props.user.orders.orderItems to display (via map) all items in the cart associated with the user
-
-export const userAddsToCart = (userId, itemInfo) => async dispatch => {
-  try {
-    const {data} = await axios.put(`/${userId}/cart/add`, itemInfo)
-    dispatch(getUser(data))
-  } catch (err) {
-    console.log(err)
-  }
-} //component: 1) mapDispatch, 2) the second argument this thunk takes (itemInfo) should be an object with pickleId, price, and quantity as keys.
-
 /**
  * REDUCER
  */

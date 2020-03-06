@@ -7,6 +7,7 @@ import {me} from './store'
 import AllPickles from './components/AllPickles.js'
 import SinglePickle from './components/SinglePickle.js'
 import Cart from './components/Cart.js'
+import UserCart from './components/UserCart.js'
 
 /**
  * COMPONENT
@@ -21,20 +22,22 @@ class Routes extends Component {
 
     return (
       <Switch>
-        {/* Routes placed here are available to all visitors */}
-        <Route path="/login" component={Login} />
-        <Route path="/signup" component={Signup} />
-        <Route path="/pickles/:pickleId" component={SinglePickle} />
-        <Route path="/pickles" component={AllPickles} />
-        <Route path="/cart" component={Cart} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
             <Route path="/home" component={UserHome} />
             <Route path="/pickles/:pickleId" component={SinglePickle} />
             <Route path="/pickles" component={AllPickles} />
+            <Route path="/cart" component={UserCart} />
           </Switch>
         )}
+        {/* Routes placed here are available to all visitors */}
+        <Route path="/login" component={Login} />
+        <Route path="/signup" component={Signup} />
+        <Route path="/pickles/:pickleId" component={SinglePickle} />
+        <Route path="/pickles" component={AllPickles} />
+        <Route path="/cart" component={Cart} />
+
         {/* Displays our Login component as a fallback */}
         <Route component={Login} />
       </Switch>

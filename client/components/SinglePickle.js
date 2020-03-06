@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {fetchSinglePickle, resetPickles} from '../store/singlePickle'
 import {addToCart} from '../store/cart'
+import {userAddToCart} from '../store/userCart'
 
 class SinglePickle extends Component {
   componentDidMount() {
@@ -13,8 +14,12 @@ class SinglePickle extends Component {
     this.props.reset()
   }
 
-  handleClick = id => {
-    this.props.addPicklesToCart(id)
+  handleClick = pickle => {
+    if (this.props.isLoggedIn) {
+      this.props.userAddToCart(pickle)
+    } else {
+      this.props.addPicklesToCart(pickle.id)
+    }
   }
 
   render() {
@@ -29,7 +34,7 @@ class SinglePickle extends Component {
         <img src={pickle.imageUrl} />
         <p> About this pickle: {pickle.description} </p>
         <p> Price: ${pickle.price} </p>
-        <button type="button" onClick={() => this.handleClick(pickle.id)}>
+        <button type="button" onClick={() => this.handleClick(pickle)}>
           {' '}
           Add to cart
         </button>
@@ -39,7 +44,9 @@ class SinglePickle extends Component {
 }
 
 const mapState = state => ({
-  pickle: state.singlePickle
+  user: state.user,
+  pickle: state.singlePickle,
+  isLoggedIn: !!state.user.id
 })
 
 const mapDispatch = dispatch => ({
@@ -47,7 +54,8 @@ const mapDispatch = dispatch => ({
   reset: () => dispatch(resetPickles()),
   addPicklesToCart: id => {
     dispatch(addToCart(id))
-  }
+  },
+  userAddToCart: item => dispatch(userAddToCart(item))
 })
 
 export default connect(mapState, mapDispatch)(SinglePickle)
