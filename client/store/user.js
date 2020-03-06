@@ -56,24 +56,6 @@ export const logout = () => async dispatch => {
   }
 }
 
-// export const fetchUserCart = userId => async dispatch => {
-//   try {
-//     const {data} = await axios.get(`/api/users/${userId}/cart`)
-//     dispatch(getUser(data))
-//   } catch (err) {
-//     console.log(err)
-//   }
-// } //component: use this.props.user.orders.orderItems to display (via map) all items in the cart associated with the user
-
-// export const userAddsToCart = (userId, itemInfo) => async dispatch => {
-//   try {
-//     const {data} = await axios.put(`/api/users/${userId}/cart/add`, itemInfo)
-//     dispatch(getUser(data))
-//   } catch (err) {
-//     console.log(err)
-//   }
-// }
-
 /**
  * REDUCER
  */
