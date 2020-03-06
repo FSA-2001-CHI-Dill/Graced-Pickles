@@ -14,19 +14,4 @@ function requireAdmin(req, res, next) {
   }
 }
 
-// function orderMiddleware(req, res, next) {
-//   if (req.user) {
-//     req.getOrder = async () =>
-//       await Order.findOrCreate({where: {
-//         userId: req.user.id,
-//         status: 'created'
-//     }})
-//     next()
-//   } else {
-//     req.getOrder = async () =>
-//       await Order.findOrCreate({where: {sessionId: req.session.id}})
-//     next()
-//   }
-// }
-
 module.exports = {requireLogin, requireAdmin}
