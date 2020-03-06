@@ -66,6 +66,11 @@ const createApp = () => {
   // auth and api routes
   app.use('/auth', require('./auth'))
   app.use('/api', require('./api'))
+  // app.get('/testing', (req, res, next) => {
+  //   const cartId = 100
+  //   req.session.cart = cartId
+  //   res.end()
+  // })
 
   // static file-serving middleware
   app.use(express.static(path.join(__dirname, '..', 'public')))

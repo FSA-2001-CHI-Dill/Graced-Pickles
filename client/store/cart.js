@@ -1,45 +1,52 @@
 import axios from 'axios'
 
 //action types
-const ADD_TO_CART = 'ADD_TO_CART'
-const REMOVE_FROM_CART = 'REMOVE_FROM_CART'
-const REMOVE_ONE_FROM_CART = 'REMOVE_ONE_FROM_CART'
+const VIEW_CART = 'VIEW_CART'
 
-export const addToCart = id => ({
-  type: ADD_TO_CART,
-  id
-})
+const viewCart = cart => ({type: VIEW_CART, cart})
 
-export const removeOnePickleFromCart = id => ({
-  type: REMOVE_ONE_FROM_CART,
-  id
-})
+export const fetchCart = () => async dispatch => {
+  try {
+    const {data} = await axios.get('/api/cart')
+    console.log('data from server', data)
+    dispatch(viewCart(data))
+  } catch (err) {
+    console.log(err)
+  }
+}
 
-export const removeFromCart = id => ({
-  type: REMOVE_FROM_CART,
-  id
-})
+export const addToCart = pickle => async dispatch => {
+  try {
+    const {data} = await axios.put('/api/cart/add', pickle)
+    dispatch(viewCart(data))
+  } catch (err) {
+    console.log(err)
+  }
+}
 
-const cartReducer = (cart = {}, action) => {
+export const removeOne = pickle => async dispatch => {
+  try {
+    const {data} = await axios.put('/api/cart/remove', pickle)
+    dispatch(viewCart(data))
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+export const removeAll = pickle => async dispatch => {
+  try {
+    const {data} = await axios.put('/api/cart/removeAll', pickle)
+    console.log(pickle)
+    dispatch(viewCart(data))
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+const cartReducer = (cart = [], action) => {
   switch (action.type) {
-    case ADD_TO_CART:
-      if (!(action.id in cart)) {
-        cart[action.id] = 1
-        return {...cart}
-      } else {
-        cart[action.id]++
-        return {...cart}
-      }
-    case REMOVE_ONE_FROM_CART:
-      cart[action.id]--
-      if (cart[action.id] === 0) {
-        delete cart[action.id]
-        return {...cart}
-      }
-      return {...cart}
-    case REMOVE_FROM_CART:
-      delete cart[action.id]
-      return {...cart}
+    case VIEW_CART:
+      return action.cart
     default:
       return cart
   }
