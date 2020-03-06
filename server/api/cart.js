@@ -60,12 +60,22 @@ router.put('/add', async (req, res, next) => {
         quantity: 1
       })
     }
-    res.sendStatus(200)
+
+    const orderItems = await OrderItem.findAll({
+      where: {
+        orderId: order.id
+      },
+      include: {
+        model: Pickle
+      }
+    })
+    res.json(orderItems)
   } catch (err) {
     next(err)
   }
 })
 
+//removing item from cart
 router.put('/remove', async (req, res, next) => {
   try {
     const item = await OrderItem.findAll({

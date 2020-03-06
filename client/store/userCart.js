@@ -17,8 +17,8 @@ export const fetchCart = () => async dispatch => {
 
 export const userAddToCart = pickle => async dispatch => {
   try {
-    await axios.put('/api/cart/add', pickle)
-    // dispatch(viewCart(data))
+    const {data} = await axios.put('/api/cart/add', pickle)
+    dispatch(viewCart(data))
   } catch (err) {
     console.log(err)
   }
