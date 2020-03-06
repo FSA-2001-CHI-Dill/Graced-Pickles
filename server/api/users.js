@@ -16,34 +16,3 @@ router.get('/', requireAdmin, async (req, res, next) => {
     next(err)
   }
 })
-
-// router.get('/:userId', async (req, res, next) => {
-//   try {
-//     const user = await req.requestedUser.reload({
-//       include: {
-//         model: Order
-//       }
-//     })
-//     res.json(user)
-//   } catch (err) {
-//     next(err)
-//   }
-// })
-
-// router.put('/:userId', async (req, res, next) => {
-//   try {
-//     const user = await req.requestedUser.update(req.body)
-//     res.json(user)
-//   } catch (err) {
-//     next(err)
-//   }
-// })
-
-// router.delete('/:userId', async (req, res, next) => {
-//   try {
-//     await req.requestedUser.destroy()
-//     res.status(204).end()
-//   } catch (err) {
-//     next(err)
-//   }
-// })
