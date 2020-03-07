@@ -1,6 +1,5 @@
 const router = require('express').Router()
 const {Pickle, User, Order, OrderItem} = require('../db/models')
-const {requireLogin, requireAdmin} = require('../util')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
