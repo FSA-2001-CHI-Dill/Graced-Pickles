@@ -1,17 +1,23 @@
+/* eslint-disable complexity */
 const router = require('express').Router()
 const {Pickle, User, Order, OrderItem} = require('../db/models')
 const {requireLogin, requireAdmin} = require('../util')
 module.exports = router
 
+// eslint-disable-next-line complexity
+// eslint-disable-next-line max-statements
+// eslint-disable-next-line complexity
+// eslint-disable-next-line max-statements
+// eslint-disable-next-line complexity
+// eslint-disable-next-line max-statements
 router.get('/', async (req, res, next) => {
   try {
-    if (req.user) {
-      const order = await Order.findAll({
+    if (req.user && !req.session.cart) {
+      const order = await Order.findOne({
         where: {
           userId: req.user.id,
           status: 'created'
-        },
-        plain: true
+        }
       })
       if (!order) {
         res.status(204).send('No pending order exists')
@@ -26,7 +32,81 @@ router.get('/', async (req, res, next) => {
         })
         res.json(orderItems)
       }
-    } else if (req.session.cart) {
+    } else if (req.user && req.session.cart) {
+      const userOrder = await Order.findOne({
+        where: {
+          userId: req.user.id,
+          status: 'created'
+        }
+      })
+      if (!userOrder) {
+        const guestOrder = await Order.findOne({
+          where: {
+            id: req.session.cart
+          }
+        })
+        await guestOrder.update({
+          userId: req.user.id
+        })
+        const orderItems = await OrderItem.findAll({
+          where: {
+            orderId: guestOrder.id
+          },
+          include: {
+            model: Pickle
+          }
+        })
+        res.json(orderItems)
+      } else {
+        const guestOrder = await Order.findOne({
+          where: {
+            id: req.session.cart
+          }
+        })
+        await guestOrder.update({
+          userId: req.user.id
+        })
+        const userOrderItems = await OrderItem.findAll({
+          where: {
+            orderId: userOrder.id
+          }
+        })
+        const guestOrderItems = await OrderItem.findAll({
+          where: {
+            orderId: guestOrder.id
+          }
+        })
+        for (let i = 0; i < userOrderItems.length; i++) {
+          for (let j = 0; j < guestOrderItems.length; j++) {
+            if (userOrderItems[i].pickleId === guestOrderItems[j].pickleId) {
+              // eslint-disable-next-line max-depth
+              if (userOrderItems[i].quantity > guestOrderItems[j].quantity) {
+                guestOrderItems[i].destroy()
+              } else {
+                userOrderItems[i].destroy()
+              }
+            }
+          }
+        }
+        await OrderItem.bulkUpdate(
+          {orderId: guestOrder.id},
+          {
+            where: {
+              orderId: userOrder.id
+            }
+          }
+        )
+        const orderItems = await OrderItem.findAll({
+          where: {
+            orderId: guestOrder.id
+          },
+          include: {
+            model: Pickle
+          }
+        })
+        res.json(orderItems)
+      }
+    } else if (!req.user && req.session.cart) {
       const cartId = req.session.cart
       const orderItems = await OrderItem.findAll({
         where: {
@@ -148,12 +228,11 @@ router.put('/add', async (req, res, next) => {
 router.put('/remove', async (req, res, next) => {
   try {
     if (req.user) {
-      const order = await Order.findAll({
+      const order = await Order.findOne({
         where: {
           status: 'created',
           userId: req.user.id
-        },
-        plain: true
+        }
       })
 
       const item = await OrderItem.findAll({
@@ -217,12 +296,11 @@ router.put('/remove', async (req, res, next) => {
 router.put('/removeAll', async (req, res, next) => {
   try {
     if (req.user) {
-      const order = await Order.findAll({
+      const order = await Order.findOne({
         where: {
           userId: req.user.id,
           status: 'created'
-        },
-        plain: true
+        }
       })
       console.log('order', order)
       await OrderItem.destroy({
