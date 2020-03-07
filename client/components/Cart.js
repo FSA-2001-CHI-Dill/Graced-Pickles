@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-import {fetchCart, removeOne, addToCart, removeAll} from '../store/cart'
+import {fetchCart, updateCart, removeAll} from '../store/cart'
 
 class Cart extends React.Component {
   componentDidMount() {
@@ -30,14 +30,14 @@ class Cart extends React.Component {
 
             <button
               type="button"
-              onClick={() => this.props.removeOne(item.pickle)}
+              onClick={() => this.props.updateCart(item.pickle, -1)}
             >
               - Remove One
             </button>
 
             <button
               type="button"
-              onClick={() => this.props.addToCart(item.pickle)}
+              onClick={() => this.props.updateCart(item.pickle, 1)}
             >
               + Add One
             </button>
@@ -61,8 +61,7 @@ const mapState = state => ({
 
 const mapDispatch = dispatch => ({
   loadCart: () => dispatch(fetchCart()),
-  removeOne: item => dispatch(removeOne(item)),
-  addToCart: item => dispatch(addToCart(item)),
+  updateCart: (item, qty) => dispatch(updateCart(item, qty)),
   removeAll: item => dispatch(removeAll(item))
 })
 

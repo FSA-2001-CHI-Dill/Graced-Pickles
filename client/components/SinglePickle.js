@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {fetchSinglePickle, resetPickles} from '../store/singlePickle'
-import {addToCart} from '../store/cart'
+import {updateCart} from '../store/cart'
 
 class SinglePickle extends Component {
   componentDidMount() {
@@ -14,7 +14,7 @@ class SinglePickle extends Component {
   }
 
   handleClick = pickle => {
-    this.props.addToCart(pickle)
+    this.props.addToCart(pickle, 1)
   }
 
   render() {
@@ -47,7 +47,7 @@ const mapState = state => ({
 const mapDispatch = dispatch => ({
   loadPickle: pickleId => dispatch(fetchSinglePickle(pickleId)),
   reset: () => dispatch(resetPickles()),
-  addToCart: item => dispatch(addToCart(item))
+  addToCart: (item, qty) => dispatch(updateCart(item, qty))
 })
 
 export default connect(mapState, mapDispatch)(SinglePickle)
