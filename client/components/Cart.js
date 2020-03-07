@@ -1,30 +1,17 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-import {fetchPickles} from '../store/allPickles'
-import {addToCart, removeOnePickleFromCart, removeFromCart} from '../store/cart'
+import {fetchCart, updateCart, removeAll} from '../store/cart'
 
 class Cart extends React.Component {
   componentDidMount() {
-    this.props.loadPickles()
-  }
-
-  addOnePickle = id => {
-    this.props.addOnePickleToCart(id)
-  }
-
-  removeOnePickle = id => {
-    this.props.removeOnePickleFromCart(id)
-  }
-
-  deleteFromCart = id => {
-    this.props.removePickleFromCart(id)
+    this.props.loadCart()
   }
 
   render() {
-    const {pickles, cart} = this.props
-    const filteredCart = pickles.filter(pickle => pickle.id in cart)
-    if (!Object.keys(cart).length)
+    const cart = this.props.cart
+
+    if (cart.length === 0 || cart.length === undefined) {
       return (
         <div>
           <h1>Your Shopping Cart is Empty!</h1>
@@ -33,61 +20,49 @@ class Cart extends React.Component {
           </h2>
         </div>
       )
+    }
     return (
       <div>
-        <h1>Your Orders</h1>
-        <div>
-          {filteredCart.map(pickle => (
-            <div key={pickle.id}>
-              <Link to={`/pickles/${pickle.id}`}> {pickle.title} </Link>
-              <p>
-                <img src={pickle.imageUrl} />
-              </p>
-              <p>${pickle.price}</p>
+        {cart.map(item => (
+          <div key={item.pickle.id}>
+            <Link to={`/pickles/${item.pickle.id}`}> {item.pickle.title} </Link>
+            <p>Quantity: {item.quantity}</p>
 
-              <p>Quantity: {cart[pickle.id]}</p>
-              <button
-                type="button"
-                onClick={() => this.addOnePickle(pickle.id)}
-              >
-                + Add One
-              </button>
-              <button
-                type="button"
-                onClick={() => this.removeOnePickle(pickle.id)}
-              >
-                - Remove One
-              </button>
-              <button
-                type="button"
-                onClick={() => this.deleteFromCart(pickle.id)}
-              >
-                Remove Pickle From Cart
-              </button>
-            </div>
-          ))}
-        </div>
+            <button
+              type="button"
+              onClick={() => this.props.updateCart(item.pickle, -1)}
+            >
+              - Remove One
+            </button>
+
+            <button
+              type="button"
+              onClick={() => this.props.updateCart(item.pickle, 1)}
+            >
+              + Add One
+            </button>
+
+            <button
+              type="button"
+              onClick={() => this.props.removeAll(item.pickle)}
+            >
+              Remove Pickle From Cart
+            </button>
+          </div>
+        ))}
       </div>
     )
   }
 }
 
 const mapState = state => ({
-  cart: state.cart,
-  pickles: state.allPickles
+  cart: state.cart
 })
 
 const mapDispatch = dispatch => ({
-  loadPickles: () => dispatch(fetchPickles()),
-  addOnePickleToCart: id => {
-    dispatch(addToCart(id))
-  },
-  removeOnePickleFromCart: id => {
-    dispatch(removeOnePickleFromCart(id))
-  },
-  removePickleFromCart: id => {
-    dispatch(removeFromCart(id))
-  }
+  loadCart: () => dispatch(fetchCart()),
+  updateCart: (item, qty) => dispatch(updateCart(item, qty)),
+  removeAll: item => dispatch(removeAll(item))
 })
 
 export default connect(mapState, mapDispatch)(Cart)

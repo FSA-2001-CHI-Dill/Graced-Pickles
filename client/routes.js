@@ -7,7 +7,6 @@ import {me} from './store'
 import AllPickles from './components/AllPickles.js'
 import SinglePickle from './components/SinglePickle.js'
 import Cart from './components/Cart.js'
-import UserCart from './components/UserCart.js'
 
 /**
  * COMPONENT
@@ -28,7 +27,7 @@ class Routes extends Component {
             <Route path="/home" component={UserHome} />
             <Route path="/pickles/:pickleId" component={SinglePickle} />
             <Route path="/pickles" component={AllPickles} />
-            <Route path="/cart" component={UserCart} />
+            <Route path="/cart" component={Cart} />
           </Switch>
         )}
         {/* Routes placed here are available to all visitors */}
