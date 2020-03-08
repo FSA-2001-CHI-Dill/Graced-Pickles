@@ -26,27 +26,27 @@ class Cart extends React.Component {
         {cart.map(item => (
           <div key={item.pickle.id}>
             <Link to={`/pickles/${item.pickle.id}`}> {item.pickle.title} </Link>
-            <p>Quantity: {item.quantity}</p>
+            <p>Quantity: {item.qty}</p>
 
             <button
               type="button"
               onClick={() => this.props.updateCart(item.pickle, -1)}
             >
-              - Remove One
+              -
             </button>
 
             <button
               type="button"
               onClick={() => this.props.updateCart(item.pickle, 1)}
             >
-              + Add One
+              +
             </button>
 
             <button
               type="button"
               onClick={() => this.props.removeAll(item.pickle)}
             >
-              Remove Pickle From Cart
+              x
             </button>
           </div>
         ))}

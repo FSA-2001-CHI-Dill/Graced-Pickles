@@ -28,11 +28,17 @@ class SinglePickle extends Component {
         <h1>{pickle.title} </h1>
         <img src={pickle.imageUrl} />
         <p> About this pickle: {pickle.description} </p>
-        <p> Price: ${pickle.price} </p>
+        <p> Price: ${(pickle.price / 100).toFixed(2)} </p>
         <button type="button" onClick={() => this.handleClick(pickle)}>
           {' '}
           Add to cart
         </button>
+        <p>
+          Reviews:{' '}
+          {pickle.reviews.map(review => (
+            <div key={review.id}> {review.content} </div>
+          ))}{' '}
+        </p>
       </div>
     )
   }

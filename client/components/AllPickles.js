@@ -11,8 +11,8 @@ class AllPickles extends Component {
   render() {
     return this.props.pickles.map(pickle => (
       <div key={pickle.id}>
-        <Link to={`/pickles/${pickle.id}`}> {pickle.title} </Link>
-        ${pickle.price}
+        <Link to={`/pickles/${pickle.id}`}> {pickle.title} </Link>$
+        {(pickle.price / 100).toFixed(2)}
       </div>
     ))
   }
