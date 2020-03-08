@@ -44,7 +44,7 @@ class SinglePickle extends Component {
 
 const mapState = state => ({
   user: state.user,
-  pickle: state.singlePickle.fields,
+  pickle: state.singlePickle.pickle,
   loading: state.singlePickle.loading,
   error: state.singlePickle.error
 })

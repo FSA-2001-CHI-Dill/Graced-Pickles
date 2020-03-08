@@ -32,14 +32,14 @@ export const fetchSinglePickle = pickleId => {
 }
 
 const singlePickleReducer = (
-  singlePickle = {fields: {}, loading: false, error: null},
+  singlePickle = {pickle: {}, loading: false, error: null},
   action
 ) => {
   switch (action.type) {
     case PICKLE_LOAD_START:
       return {...singlePickle, loading: true}
     case SELECT_PICKLE:
-      return {...singlePickle, fields: action.pickle, loading: false}
+      return {...singlePickle, pickle: action.pickle, loading: false}
     case PICKLE_LOAD_ERROR:
       return {...singlePickle, error: action.err, loading: false}
     default:
