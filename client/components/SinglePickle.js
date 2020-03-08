@@ -29,6 +29,8 @@ class SinglePickle extends Component {
         <img src={pickle.imageUrl} />
         <p> About this pickle: {pickle.description} </p>
         <p> Price: ${(pickle.price / 100).toFixed(2)} </p>
+        <p> Spice level: {pickle.spiceLevel}</p>
+        <p>Vegetarian? {pickle.vegetarian ? '✅' : ''}</p>
         <button type="button" onClick={() => this.handleClick(pickle)}>
           {' '}
           Add to cart

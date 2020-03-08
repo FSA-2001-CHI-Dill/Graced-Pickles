@@ -50,6 +50,12 @@ class Cart extends React.Component {
             </button>
           </div>
         ))}
+        <br />
+        Total: ${cart
+          .reduce((acc, item) => {
+            return acc + item.qty * item.price / 100
+          }, 0)
+          .toFixed(2)}
       </div>
     )
   }
