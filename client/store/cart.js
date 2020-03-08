@@ -15,18 +15,10 @@ export const fetchCart = () => async dispatch => {
   }
 }
 
-export const addToCart = pickle => async dispatch => {
+export const updateCart = (pickle, qty) => async dispatch => {
   try {
-    const {data} = await axios.put('/api/cart/add', pickle)
-    dispatch(viewCart(data))
-  } catch (err) {
-    console.log(err)
-  }
-}
-
-export const removeOne = pickle => async dispatch => {
-  try {
-    const {data} = await axios.put('/api/cart/remove', pickle)
+    console.log('pickle', pickle, 'qty', qty)
+    const {data} = await axios.put('/api/cart/update', {pickle, qty})
     dispatch(viewCart(data))
   } catch (err) {
     console.log(err)
