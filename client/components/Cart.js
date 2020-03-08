@@ -27,7 +27,7 @@ class Cart extends React.Component {
           <div key={item.pickle.id}>
             <Link to={`/pickles/${item.pickle.id}`}> {item.pickle.title} </Link>
             <p>Quantity: {item.qty}</p>
-
+            <p>Price: ${(item.pickle.price / 100).toFixed(2)} </p>
             <button
               type="button"
               onClick={() => this.props.updateCart(item.pickle, -1)}
