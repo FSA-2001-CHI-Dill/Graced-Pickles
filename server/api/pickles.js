@@ -56,7 +56,7 @@ router.put('/:pickleId', requireAdmin, async (req, res, next) => {
   }
 })
 
-router.delete('/:pickleId', async (req, res, next) => {
+router.delete('/:pickleId', requireAdmin, async (req, res, next) => {
   try {
     await Pickle.destroy({
       where: {

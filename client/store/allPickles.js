@@ -55,7 +55,6 @@ export const deleteSinglePickle = pickle => {
     try {
       dispatch(picklesLoadStart())
       const {data} = await axios.delete(`/api/pickles/${pickle.id}`)
-      console.log(data)
       dispatch(setPickles(data))
     } catch (err) {
       console.log('Something went wrong!', err)
