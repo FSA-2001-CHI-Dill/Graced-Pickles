@@ -1,49 +1,32 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
+import {fetchAllUsers} from '../store/allUsers'
 
 class AllUsers extends React.Component {
   componentDidMount() {
-    this.props.loadPickles()
+    this.props.loadUsers()
   }
 
   render() {
     const {users} = this.props
+    console.log(users)
 
     return users.map(user => (
       <div key={user.id}>
-        <Link to={`/users/${user.id}`}> {user.email} </Link>${user.nickname}
+        <Link to={`/users/${user.id}`}> {user.email} </Link>
+        {user.nickname}
       </div>
     ))
   }
 }
 
 const mapState = state => ({
-  users: state.allUsers.users
+  users: state.users
 })
 
 const mapDispatch = dispatch => ({
-  loadUsers: () => dispatch(fetch())
+  loadUsers: () => dispatch(fetchAllUsers())
 })
 
 export default connect(mapState, mapDispatch)(AllUsers)
-
-// import {useSelector, useDispatch} from 'react-redux'
-// // import { fetchAllUsers } from './store/allUsers'
-
-// const AllUsers = props => {
-//   // const email = useSelector(state => state.users.email)
-//   // const nickname = useSelector(state => state.users.nickname)
-
-//   // const dispatch = useDispatch()
-
-//   // useEffect(() => {
-//   //   dispatch(fetchAllUsers())
-//   // }, [])
-
-//   return (
-//     <div>
-//       <h1>List Of All Users</h1>
-//     </div>
-//   )
-// }
