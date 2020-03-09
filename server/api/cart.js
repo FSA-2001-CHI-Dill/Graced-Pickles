@@ -21,16 +21,17 @@ router.get('/', async (req, res, next) => {
     }
     if (!order) {
       res.status(204).send('No pending order exists')
+    } else {
+      const orderItems = await OrderItem.findAll({
+        where: {
+          orderId: order.id
+        },
+        include: {
+          model: Pickle
+        }
+      })
+      res.json(orderItems)
     }
-    const orderItems = await OrderItem.findAll({
-      where: {
-        orderId: order.id
-      },
-      include: {
-        model: Pickle
-      }
-    })
-    res.json(orderItems)
   } catch (err) {
     next(err)
   }
@@ -55,7 +56,6 @@ router.put('/update', async (req, res, next) => {
       })
       req.session.cart = order.id
     }
-
     const item = await OrderItem.findOne({
       where: {
         orderId: order.id,
@@ -65,10 +65,10 @@ router.put('/update', async (req, res, next) => {
 
     if (item) {
       await item.update({
-        quantity: item.quantity + req.body.qty,
+        qty: item.qty + req.body.qty,
         price: req.body.pickle.price
       })
-      if (item.quantity === 0) {
+      if (item.qty === 0) {
         await item.destroy()
       }
     } else {
@@ -76,7 +76,7 @@ router.put('/update', async (req, res, next) => {
         orderId: order.id,
         pickleId: req.body.pickle.id,
         price: req.body.pickle.price,
-        quantity: 1
+        qty: 1
       })
     }
     const orderItems = await OrderItem.findAll({

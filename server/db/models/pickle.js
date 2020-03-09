@@ -17,7 +17,7 @@ const Pickle = db.define('pickle', {
     }
   },
   price: {
-    type: Sequelize.FLOAT,
+    type: Sequelize.INTEGER,
     allowNull: false,
     validation: {
       min: 0

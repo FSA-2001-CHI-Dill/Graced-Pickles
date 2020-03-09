@@ -9,17 +9,24 @@ class AllPickles extends Component {
   }
 
   render() {
-    return this.props.pickles.map(pickle => (
+    const {pickles, loading, error} = this.props
+
+    if (loading) return <h2> Loading </h2>
+    if (error) return <h2> Something went wrong! </h2>
+
+    return pickles.map(pickle => (
       <div key={pickle.id}>
-        <Link to={`/pickles/${pickle.id}`}> {pickle.title} </Link>
-        ${pickle.price}
+        <Link to={`/pickles/${pickle.id}`}> {pickle.title} </Link>$
+        {(pickle.price / 100).toFixed(2)}
       </div>
     ))
   }
 }
 
 const mapState = state => ({
-  pickles: state.allPickles
+  pickles: state.allPickles.pickles,
+  loading: state.allPickles.loading,
+  error: state.allPickles.error
 })
 
 const mapDispatch = dispatch => ({
