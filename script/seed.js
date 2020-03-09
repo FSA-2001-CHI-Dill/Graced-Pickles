@@ -32,36 +32,13 @@ async function seed() {
       await Pickle.create({
         title: faker.lorem.word(),
         description: faker.lorem.sentence(),
-        price: faker.finance.amount(),
+        price: faker.random.number({min: 100, max: 10000}),
         inventory: faker.random.number(),
         vegetarian: faker.random.boolean(),
         spiceLevel: ['mild', 'medium', 'spicy'][Math.floor(Math.random() * 3)]
       })
     })
   }
-
-  // const orders = async numOfEntries => {
-  //   await createData(numOfEntries, async () => {
-  //     await Order.create({
-  //       status: ['created', 'processing', 'cancelled', 'completed'][
-  //         Math.floor(Math.random() * 4)
-  //       ],
-  //       orderDate: faker.date.between('2015-01-01', '2020-03-01'),
-  //       userId: Math.floor(Math.random() * 99)
-  //     })
-  //   })
-  // }
-
-  // const orderItems = async numOfEntries => {
-  //   await createData(numOfEntries, async () => {
-  //     await OrderItem.create({
-  //       quantity: Math.floor(Math.random() * 10),
-  //       price: faker.finance.amount(),
-  //       orderId: Math.floor(Math.random() * 99),
-  //       pickleId: Math.floor(Math.random() * 99)
-  //     })
-  //   })
-  // }
 
   try {
     await users(100)

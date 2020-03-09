@@ -1,37 +1,47 @@
 import axios from 'axios'
 
+const PICKLE_LOAD_START = 'PICKLE_LOAD_START'
 const SELECT_PICKLE = 'SELECT_PICKLE'
-const RESET_PICKLES = 'RESET_PICKLES'
+const PICKLE_LOAD_ERROR = 'PICKLE_LOAD_ERROR'
+
+const pickleLoadStart = () => ({
+  type: PICKLE_LOAD_START
+})
 
 const selectPickle = pickle => ({
   type: SELECT_PICKLE,
   pickle
 })
 
-export const resetPickles = () => ({
-  type: RESET_PICKLES,
-  pickle: {}
+const pickleLoadingError = err => ({
+  type: PICKLE_LOAD_ERROR,
+  err
 })
 
 export const fetchSinglePickle = pickleId => {
   return async dispatch => {
     try {
+      dispatch(pickleLoadStart())
       const {data} = await axios.get(`/api/pickles/${pickleId}`)
       dispatch(selectPickle(data))
     } catch (err) {
       console.log('Something went wrong!', err)
-      dispatch(selectPickle(err.response))
-      //this is for displaying "pickle does not exist" on the user interface
+      dispatch(pickleLoadingError(err))
     }
   }
 }
 
-const singlePickleReducer = (singlePickle = {}, action) => {
+const singlePickleReducer = (
+  singlePickle = {pickle: {}, loading: false, error: null},
+  action
+) => {
   switch (action.type) {
+    case PICKLE_LOAD_START:
+      return {...singlePickle, loading: true}
     case SELECT_PICKLE:
-      return action.pickle
-    case RESET_PICKLES:
-      return action.pickle
+      return {...singlePickle, pickle: action.pickle, loading: false}
+    case PICKLE_LOAD_ERROR:
+      return {...singlePickle, error: action.err, loading: false}
     default:
       return singlePickle
   }
