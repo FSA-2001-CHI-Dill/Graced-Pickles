@@ -7,6 +7,7 @@ import {me} from './store'
 import AllPickles from './components/AllPickles.js'
 import SinglePickle from './components/SinglePickle.js'
 import Cart from './components/Cart.js'
+import AllUsers from './components/AllUsers'
 
 /**
  * COMPONENT
@@ -17,10 +18,22 @@ class Routes extends Component {
   }
 
   render() {
-    const {isLoggedIn} = this.props
+    const {isLoggedIn, isAdmin} = this.props
+    console.log(this.props)
 
     return (
       <Switch>
+        {isLoggedIn &&
+          isAdmin && (
+            <Switch>
+              {/* Routes placed here are only available after logging in */}
+              <Route path="/home" component={UserHome} />
+              <Route path="/pickles/:pickleId" component={SinglePickle} />
+              <Route path="/pickles" component={AllPickles} />
+              <Route path="/cart" component={Cart} />
+              <Route path="/users" component={AllUsers} />
+            </Switch>
+          )}
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
@@ -51,7 +64,8 @@ const mapState = state => {
   return {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.id,
+    isAdmin: state.user.isAdmin
   }
 }
 
@@ -72,5 +86,6 @@ export default withRouter(connect(mapState, mapDispatch)(Routes))
  */
 Routes.propTypes = {
   loadInitialData: PropTypes.func.isRequired,
-  isLoggedIn: PropTypes.bool.isRequired
+  isLoggedIn: PropTypes.bool.isRequired,
+  isAdmin: PropTypes.bool
 }
