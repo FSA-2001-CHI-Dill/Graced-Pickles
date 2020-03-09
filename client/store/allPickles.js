@@ -50,6 +50,20 @@ export const addNewPickle = pickle => {
   }
 }
 
+export const deleteSinglePickle = pickle => {
+  return async dispatch => {
+    try {
+      dispatch(picklesLoadStart())
+      const {data} = await axios.delete(`/api/pickles/${pickle.id}`)
+      console.log(data)
+      dispatch(setPickles(data))
+    } catch (err) {
+      console.log('Something went wrong!', err)
+      dispatch(picklesLoadingError(err))
+    }
+  }
+}
+
 const allPicklesReducer = (
   allPickles = {pickles: [], loading: false, error: null},
   action

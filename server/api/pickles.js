@@ -55,3 +55,17 @@ router.put('/:pickleId', requireAdmin, async (req, res, next) => {
     next(err)
   }
 })
+
+router.delete('/:pickleId', async (req, res, next) => {
+  try {
+    await Pickle.destroy({
+      where: {
+        id: req.params.pickleId
+      }
+    })
+    const pickles = await Pickle.findAll()
+    res.json(pickles)
+  } catch (err) {
+    next(err)
+  }
+})

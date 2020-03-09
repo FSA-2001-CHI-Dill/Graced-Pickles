@@ -4,6 +4,7 @@ import {fetchSinglePickle} from '../store/singlePickle'
 import {updateCart} from '../store/cart'
 import {Link} from 'react-router-dom'
 import UpdatePickle from './AddUpdatePickle'
+import {deleteSinglePickle} from '../store/allPickles'
 
 class SinglePickle extends Component {
   constructor() {
@@ -28,6 +29,11 @@ class SinglePickle extends Component {
     this.setState({toggle: !this.state.toggle})
   }
 
+  deleteClick = () => {
+    this.props.deletePickle(this.props.pickle)
+    this.props.history.push('/pickles')
+  }
+
   render() {
     const {pickle, loading, error} = this.props
 
@@ -41,7 +47,7 @@ class SinglePickle extends Component {
         <p> Price: ${(pickle.price / 100).toFixed(2)} </p>
         <p> Spice level: {pickle.spiceLevel}</p>
         <p> Vegetarian? {pickle.vegetarian ? '✅' : '✖️'}</p>
-        <button type="button" onClick={() => this.handleClick(pickle)}>
+        <button type="button" onClick={this.handleClick}>
           {' '}
           Add to cart
         </button>
@@ -53,6 +59,11 @@ class SinglePickle extends Component {
             ))}
         </p>
         <br />
+        {this.props.isAdmin && (
+          <button type="button" onClick={this.deleteClick}>
+            Remove
+          </button>
+        )}
         {this.props.isAdmin && (
           <button type="button" onClick={this.toggleClick}>
             Update this pickle
@@ -73,7 +84,8 @@ const mapState = state => ({
 
 const mapDispatch = dispatch => ({
   loadPickle: pickleId => dispatch(fetchSinglePickle(pickleId)),
-  addToCart: (item, qty) => dispatch(updateCart(item, qty))
+  addToCart: (item, qty) => dispatch(updateCart(item, qty)),
+  deletePickle: pickle => dispatch(deleteSinglePickle(pickle))
 })
 
 export default connect(mapState, mapDispatch)(SinglePickle)
