@@ -1,7 +1,7 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 
-import useFetchAllItems from '../hooks/useFetchAllItems.js'
+import useFetchAllItems from '../hooks/useFetchAllItems'
 
 const AllPickles = () => {
   const [state, setParams] = useFetchAllItems('/api/pickles')
