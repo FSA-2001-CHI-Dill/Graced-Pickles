@@ -28,7 +28,6 @@ router.put('/', async (req, res, next) => {
         }
       }
     )
-    console.log()
     res.sendStatus(200)
   } catch (err) {
     next(err)
