@@ -12,6 +12,7 @@ describe('User routes', () => {
   })
 
   xdescribe('/api/users/', () => {
+    //user must be authenticated
     const codysEmail = 'cody@puppybook.com'
 
     beforeEach(() => {
