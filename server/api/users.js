@@ -4,7 +4,7 @@ const {requireLogin, requireAdmin} = require('../util')
 module.exports = router
 
 //TODO ADD requireAdmin BACK INTO ROUTEß
-router.get('/', async (req, res, next) => {
+router.get('/', requireAdmin, async (req, res, next) => {
   try {
     const users = await User.findAll({
       // explicitly select only the id and email fields - even though
@@ -18,7 +18,7 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-router.put('/', async (req, res, next) => {
+router.put('/', requireAdmin, async (req, res, next) => {
   try {
     await User.update(
       {isAdmin: true},
@@ -34,7 +34,7 @@ router.put('/', async (req, res, next) => {
   }
 })
 
-router.delete('/', async (req, res, next) => {
+router.delete('/', requireAdmin, async (req, res, next) => {
   try {
     await User.destroy({
       where: {
