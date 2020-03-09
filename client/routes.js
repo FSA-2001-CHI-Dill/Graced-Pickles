@@ -7,6 +7,7 @@ import {me} from './store'
 import AllPickles from './components/AllPickles.js'
 import SinglePickle from './components/SinglePickle.js'
 import Cart from './components/Cart.js'
+import AddPickle from './components/AddUpdatePickle'
 
 /**
  * COMPONENT
@@ -25,6 +26,11 @@ class Routes extends Component {
           <Switch>
             {/* Routes placed here are only available after logging in */}
             <Route path="/home" component={UserHome} />
+            <Route
+              exact
+              path="/pickles/add"
+              render={props => <AddPickle add={true} {...props} />}
+            />
             <Route path="/pickles/:pickleId" component={SinglePickle} />
             <Route path="/pickles" component={AllPickles} />
             <Route path="/cart" component={Cart} />

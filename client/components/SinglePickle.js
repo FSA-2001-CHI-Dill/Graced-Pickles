@@ -2,8 +2,19 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {fetchSinglePickle} from '../store/singlePickle'
 import {updateCart} from '../store/cart'
+import {Link} from 'react-router-dom'
+import UpdatePickle from './AddUpdatePickle'
 
 class SinglePickle extends Component {
+  constructor() {
+    super()
+    this.state = {
+      toggle: false
+    }
+    this.handleClick = this.handleClick.bind(this)
+    this.toggleClick = this.toggleClick.bind(this)
+  }
+
   componentDidMount() {
     const pickleId = this.props.match.params.pickleId
     this.props.loadPickle(pickleId)
@@ -11,6 +22,10 @@ class SinglePickle extends Component {
 
   handleClick = pickle => {
     this.props.addToCart(pickle, 1)
+  }
+
+  toggleClick = () => {
+    this.setState({toggle: !this.state.toggle})
   }
 
   render() {
@@ -37,13 +52,20 @@ class SinglePickle extends Component {
               <div key={review.id}> {review.content} </div>
             ))}
         </p>
+        <br />
+        {this.props.isAdmin && (
+          <button type="button" onClick={this.toggleClick}>
+            Update this pickle
+          </button>
+        )}
+        {this.state.toggle && <UpdatePickle update={true} pickle={pickle} />}
       </div>
     )
   }
 }
 
 const mapState = state => ({
-  user: state.user,
+  isAdmin: state.user.isAdmin,
   pickle: state.singlePickle.pickle,
   loading: state.singlePickle.loading,
   error: state.singlePickle.error

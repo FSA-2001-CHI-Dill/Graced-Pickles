@@ -34,7 +34,6 @@ class Cart extends React.Component {
             >
               -
             </button>
-
             <button
               type="button"
               onClick={() => this.props.updateCart(item.pickle, 1)}
