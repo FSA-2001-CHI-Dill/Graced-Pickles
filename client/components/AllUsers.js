@@ -23,7 +23,11 @@ class AllUsers extends React.Component {
   }
 
   render() {
-    const {users} = this.props
+    const {users, loading, error} = this.props
+    console.log(users)
+
+    if (loading) return <h2> Loading </h2>
+    if (error) return <h2> Something went wrong! </h2>
 
     return (
       <div>
@@ -32,7 +36,7 @@ class AllUsers extends React.Component {
           <div key={user.id}>
             <h2>User #{user.id}:</h2>
             <h3>{user.email}</h3>
-            <p>Adminstrator? {user.isAdmin ? 'YES' : 'NO'}</p>
+            <p>Administrator? {user.isAdmin ? 'YES' : 'NO'}</p>
             <button type="button" onClick={() => this.makeAdmin(user)}>
               Promote to Admin
             </button>
@@ -47,7 +51,9 @@ class AllUsers extends React.Component {
 }
 
 const mapState = state => ({
-  users: state.users
+  users: state.allUsers.users,
+  loading: state.allUsers.loading,
+  error: state.allUsers.error
 })
 
 const mapDispatch = dispatch => ({

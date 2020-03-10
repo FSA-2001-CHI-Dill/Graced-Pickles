@@ -6,14 +6,14 @@ import user from './user'
 import allPickles from './allPickles'
 import singlePickle from './singlePickle'
 import cart from './cart'
-import users from './allUsers'
+import allUsers from './allUsers'
 
 const reducer = combineReducers({
   user,
   allPickles,
   singlePickle,
   cart,
-  users
+  allUsers
 })
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
