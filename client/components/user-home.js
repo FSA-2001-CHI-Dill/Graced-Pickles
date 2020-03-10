@@ -8,11 +8,11 @@ import {Link} from 'react-router-dom'
  */
 export const UserHome = props => {
   const {email, isAdmin} = props
-
   return (
     <div>
       <h3>Welcome, {email}</h3>
-      {isAdmin && <Link to="/pickles/add">Add Pickles</Link>}
+      <p>{isAdmin && <Link to="/pickles/add">Add Pickles</Link>}</p>
+      <p>{isAdmin && <Link to="/users"> Show Me All Users </Link>}</p>
     </div>
   )
 }
@@ -33,5 +33,6 @@ export default connect(mapState)(UserHome)
  * PROP TYPES
  */
 UserHome.propTypes = {
-  email: PropTypes.string
+  email: PropTypes.string,
+  isAdmin: PropTypes.bool
 }
