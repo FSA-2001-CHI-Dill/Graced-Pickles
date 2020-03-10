@@ -1,5 +1,4 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {fetchAllUsers, removeUser, promoteToAdmin} from '../store/allUsers'
 
@@ -26,19 +25,24 @@ class AllUsers extends React.Component {
   render() {
     const {users} = this.props
 
-    return users.map(user => (
-      <div key={user.id}>
-        <p>User #{user.id}:</p>
-        <Link to={`/users/${user.id}`}> {user.email} </Link>
-        <p>Adminstrator? {user.isAdmin ? 'YES' : 'NO'}</p>
-        <button type="button" onClick={() => this.makeAdmin(user)}>
-          Promote to Admin
-        </button>
-        <button type="button" onClick={() => this.deleteClick(user)}>
-          Remove User
-        </button>
+    return (
+      <div>
+        <h1>All Users</h1>
+        {users.map(user => (
+          <div key={user.id}>
+            <h2>User #{user.id}:</h2>
+            <h3>{user.email}</h3>
+            <p>Adminstrator? {user.isAdmin ? 'YES' : 'NO'}</p>
+            <button type="button" onClick={() => this.makeAdmin(user)}>
+              Promote to Admin
+            </button>
+            <button type="button" onClick={() => this.deleteClick(user)}>
+              Remove User
+            </button>
+          </div>
+        ))}
       </div>
-    ))
+    )
   }
 }
 
