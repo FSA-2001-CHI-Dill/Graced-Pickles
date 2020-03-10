@@ -18,6 +18,7 @@ class Cart extends React.Component {
       this.props.checkout()
     }
   }
+
   render() {
     const {cart} = this.props
 
@@ -67,8 +68,9 @@ class Cart extends React.Component {
             }, 0)
             .toFixed(2)}
           <br />
+          <br />
           <Link to="/checkout" onClick={this.checkoutClick}>
-            Checkout
+            Checkout:{' '}
           </Link>
         </div>
       )

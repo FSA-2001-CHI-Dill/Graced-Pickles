@@ -1,6 +1,11 @@
 const router = require('express').Router()
 const {Pickle, Review, Order, OrderItem} = require('../db/models')
 const {requireLogin, requireAdmin} = require('../util')
+const {stripeKey} = require('../../secrets')
+const stripe = require('stripe')(
+  stripeKey || 'pk_test_ixYHMYf83vAdUAFX2jYPfg9u00Jk5sO3XV'
+)
+
 module.exports = router
 
 //fetching all orders
@@ -75,6 +80,22 @@ router.put('/confirm', requireLogin, async (req, res, next) => {
     } else {
       res.sendStatus(500)
     }
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.post('/', async (req, res, next) => {
+  try {
+    ;(async () => {
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: 1000,
+        currency: 'usd',
+        payment_method_types: ['card'],
+        receipt_email: 'jenny.rosen@example.com'
+      })
+      res.json(paymentIntent)
+    })()
   } catch (err) {
     next(err)
   }
