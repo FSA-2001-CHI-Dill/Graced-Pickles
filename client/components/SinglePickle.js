@@ -14,6 +14,7 @@ class SinglePickle extends Component {
     }
     this.handleClick = this.handleClick.bind(this)
     this.toggleClick = this.toggleClick.bind(this)
+    this.deleteClick = this.deleteClick.bind(this)
   }
 
   componentDidMount() {
@@ -47,7 +48,7 @@ class SinglePickle extends Component {
         <p> Price: ${(pickle.price / 100).toFixed(2)} </p>
         <p> Spice level: {pickle.spiceLevel}</p>
         <p> Vegetarian? {pickle.vegetarian ? '✅' : '✖️'}</p>
-        <button type="button" onClick={this.handleClick}>
+        <button type="button" onClick={() => this.handleClick(pickle)}>
           {' '}
           Add to cart
         </button>

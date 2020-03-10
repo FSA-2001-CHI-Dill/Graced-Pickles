@@ -20,43 +20,46 @@ class Cart extends React.Component {
           </h2>
         </div>
       )
-    }
-    return (
-      <div>
-        {cart.map(item => (
-          <div key={item.pickle.id}>
-            <Link to={`/pickles/${item.pickle.id}`}> {item.pickle.title} </Link>
-            <p>Quantity: {item.qty}</p>
-            <p>Price: ${(item.pickle.price / 100).toFixed(2)} </p>
-            <button
-              type="button"
-              onClick={() => this.props.updateCart(item.pickle, -1)}
-            >
-              -
-            </button>
-            <button
-              type="button"
-              onClick={() => this.props.updateCart(item.pickle, 1)}
-            >
-              +
-            </button>
+    } else
+      return (
+        <div>
+          {cart.map(item => (
+            <div key={item.pickle.id}>
+              <Link to={`/pickles/${item.pickle.id}`}>
+                {' '}
+                {item.pickle.title}{' '}
+              </Link>
+              <p>Quantity: {item.qty}</p>
+              <p>Price: ${(item.pickle.price / 100).toFixed(2)} </p>
+              <button
+                type="button"
+                onClick={() => this.props.updateCart(item.pickle, -1)}
+              >
+                -
+              </button>
+              <button
+                type="button"
+                onClick={() => this.props.updateCart(item.pickle, 1)}
+              >
+                +
+              </button>
 
-            <button
-              type="button"
-              onClick={() => this.props.removeAll(item.pickle)}
-            >
-              x
-            </button>
-          </div>
-        ))}
-        <br />
-        Total: ${cart
-          .reduce((acc, item) => {
-            return acc + item.qty * item.price / 100
-          }, 0)
-          .toFixed(2)}
-      </div>
-    )
+              <button
+                type="button"
+                onClick={() => this.props.removeAll(item.pickle)}
+              >
+                x
+              </button>
+            </div>
+          ))}
+          <br />
+          Total: ${cart
+            .reduce((acc, item) => {
+              return acc + item.qty * item.price / 100
+            }, 0)
+            .toFixed(2)}
+        </div>
+      )
   }
 }
 
