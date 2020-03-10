@@ -10,12 +10,11 @@ class AllUsers extends React.Component {
 
   render() {
     const {users} = this.props
-    console.log(users)
 
     return users.map(user => (
       <div key={user.id}>
+        <p>User:</p>
         <Link to={`/users/${user.id}`}> {user.email} </Link>
-        {user.nickname}
       </div>
     ))
   }
