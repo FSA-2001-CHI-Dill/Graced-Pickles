@@ -11,12 +11,8 @@ export const UserHome = props => {
   return (
     <div>
       <h3>Welcome, {email}</h3>
-      {isAdmin && <Link to="/pickles/add">Add Pickles</Link>}
-      {isAdmin && (
-        <div>
-          <Link to="/users"> Show Me All Users </Link>
-        </div>
-      )}
+      <p>{isAdmin && <Link to="/pickles/add">Add Pickles</Link>}</p>
+      <p>{isAdmin && <Link to="/users"> Show Me All Users </Link>}</p>
     </div>
   )
 }

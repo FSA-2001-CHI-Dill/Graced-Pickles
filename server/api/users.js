@@ -18,30 +18,32 @@ router.get('/', requireAdmin, async (req, res, next) => {
   }
 })
 
-router.put('/', requireAdmin, async (req, res, next) => {
+router.put('/:id', requireAdmin, async (req, res, next) => {
   try {
     await User.update(
       {isAdmin: true},
       {
         where: {
-          id: req.body.id
+          id: req.params.id
         }
       }
     )
-    res.sendStatus(200)
+    const data = await User.findAll()
+    res.json(data)
   } catch (err) {
     next(err)
   }
 })
 
-router.delete('/', requireAdmin, async (req, res, next) => {
+router.delete('/:id', requireAdmin, async (req, res, next) => {
   try {
     await User.destroy({
       where: {
-        id: req.body.id
+        id: req.params.id
       }
     })
-    res.sendStatus(200)
+    const data = await User.findAll()
+    res.json(data)
   } catch (err) {
     next(err)
   }

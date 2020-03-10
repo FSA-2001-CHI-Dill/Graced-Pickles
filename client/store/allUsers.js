@@ -24,6 +24,30 @@ export const fetchAllUsers = () => {
     }
   }
 }
+
+export const promoteToAdmin = user => {
+  return async dispatch => {
+    try {
+      const {data} = await axios.put(`/api/users/${user.id}`)
+      console.log(data)
+      dispatch(getAllUsers(data))
+    } catch (err) {
+      console.log('Something went wrong!', err)
+    }
+  }
+}
+
+export const removeUser = user => {
+  return async dispatch => {
+    try {
+      const {data} = await axios.delete(`/api/users/${user.id}`)
+      dispatch(getAllUsers(data))
+    } catch (err) {
+      console.log('Something went wrong!', err)
+    }
+  }
+}
+
 /**
  * REDUCER
  */
