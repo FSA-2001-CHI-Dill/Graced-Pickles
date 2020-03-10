@@ -35,10 +35,7 @@ class Cart extends React.Component {
         <div>
           {cart.map(item => (
             <div key={item.pickle.id}>
-              <Link to={`/pickles/${item.pickle.id}`}>
-                {' '}
-                {item.pickle.title}{' '}
-              </Link>
+              <Link to={`/pickles/${item.pickle.id}`}>{item.pickle.title}</Link>
               <p>Quantity: {item.qty}</p>
               <p>Price per item: ${(item.pickle.price / 100).toFixed(2)} </p>
               <button

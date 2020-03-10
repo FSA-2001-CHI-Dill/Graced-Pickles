@@ -8,6 +8,7 @@ import singlePickle from './singlePickle'
 import cart from './cart'
 import allOrders from './allOrders'
 import singleOrder from './singleOrder'
+import allUsers from './allUsers'
 
 const reducer = combineReducers({
   user,
@@ -15,7 +16,8 @@ const reducer = combineReducers({
   singlePickle,
   cart,
   allOrders,
-  singleOrder
+  singleOrder,
+  allUsers
 })
 
 const middleware = composeWithDevTools(
@@ -26,3 +28,10 @@ const store = createStore(reducer, middleware)
 
 export default store
 export * from './user'
+
+//****PLEASE ADD YOUR redux state IN A COMMENT BELOW:
+//user = {}
+//allPickles = []
+//singlePickle = {}
+//cart = []
+//users = []
