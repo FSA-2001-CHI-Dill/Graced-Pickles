@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const {Pickle, User, Order, OrderItem} = require('../db/models')
+const {requireLogin} = require('../util')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
@@ -123,6 +124,31 @@ router.put('/removeAll', async (req, res, next) => {
       include: {
         model: Pickle
       }
+    })
+    res.json(orderItems)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.put('/checkout', requireLogin, async (req, res, next) => {
+  try {
+    const [, updatedOrder] = await Order.update(
+      {status: 'processing'},
+      {
+        where: {
+          userId: req.user.id,
+          status: 'created'
+        },
+        returning: true,
+        plain: true
+      }
+    )
+    const orderItems = await OrderItem.findAll({
+      where: {
+        orderId: updatedOrder.id
+      },
+      include: [Pickle]
     })
     res.json(orderItems)
   } catch (err) {
