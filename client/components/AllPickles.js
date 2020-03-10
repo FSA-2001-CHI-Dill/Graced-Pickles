@@ -4,10 +4,11 @@ import {Link} from 'react-router-dom'
 import useFetchAllItems from '../hooks/useFetchAllItems'
 
 const AllPickles = () => {
-  const [state, setParams] = useFetchAllItems('/api/pickles')
+  const {state, setParams, trigger} = useFetchAllItems('/api/pickles')
   // useFetchAllItems takes an endpoint and returns state and setParams
   // state is an object with status and items
   // setParams take parameters to filter state
+  // force a rerender by calling trigger
 
   return (
     <>

@@ -38,6 +38,7 @@ const reducer = (state, action) => {
 const useFetchAllItems = endpoint => {
   const [state, dispatch] = useReducer(reducer, initialState)
   const [params, setParams] = useState({})
+  const [trigger, setTrigger] = useState(false)
 
   useEffect(
     () => {
@@ -46,10 +47,14 @@ const useFetchAllItems = endpoint => {
         .then(res => dispatch(setItems(res.data)))
         .catch(err => dispatch(errItems(err)))
     },
-    [endpoint, params]
+    [endpoint, params, trigger]
   )
 
-  return [state, setParams]
+  return {
+    state,
+    setParams,
+    trigger: () => setTrigger(!trigger)
+  }
 }
 
 export default useFetchAllItems
