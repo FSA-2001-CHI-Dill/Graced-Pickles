@@ -24,7 +24,6 @@ class AllUsers extends React.Component {
 
   render() {
     const {users, loading, error} = this.props
-    console.log(users)
 
     if (loading) return <h2> Loading </h2>
     if (error) return <h2> Something went wrong! </h2>
