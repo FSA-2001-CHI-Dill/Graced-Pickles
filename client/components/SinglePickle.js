@@ -2,8 +2,21 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {fetchSinglePickle} from '../store/singlePickle'
 import {updateCart} from '../store/cart'
+import {Link} from 'react-router-dom'
+import UpdatePickle from './AddUpdatePickle'
+import {deleteSinglePickle} from '../store/allPickles'
 
 class SinglePickle extends Component {
+  constructor() {
+    super()
+    this.state = {
+      toggle: false
+    }
+    this.handleClick = this.handleClick.bind(this)
+    this.toggleClick = this.toggleClick.bind(this)
+    this.deleteClick = this.deleteClick.bind(this)
+  }
+
   componentDidMount() {
     const pickleId = this.props.match.params.pickleId
     this.props.loadPickle(pickleId)
@@ -11,6 +24,15 @@ class SinglePickle extends Component {
 
   handleClick = pickle => {
     this.props.addToCart(pickle, 1)
+  }
+
+  toggleClick = () => {
+    this.setState({toggle: !this.state.toggle})
+  }
+
+  deleteClick = () => {
+    this.props.deletePickle(this.props.pickle)
+    this.props.history.push('/pickles')
   }
 
   render() {
@@ -37,13 +59,25 @@ class SinglePickle extends Component {
               <div key={review.id}> {review.content} </div>
             ))}
         </p>
+        <br />
+        {this.props.isAdmin && (
+          <button type="button" onClick={this.deleteClick}>
+            Remove
+          </button>
+        )}
+        {this.props.isAdmin && (
+          <button type="button" onClick={this.toggleClick}>
+            Update this pickle
+          </button>
+        )}
+        {this.state.toggle && <UpdatePickle update={true} pickle={pickle} />}
       </div>
     )
   }
 }
 
 const mapState = state => ({
-  user: state.user,
+  isAdmin: state.user.isAdmin,
   pickle: state.singlePickle.pickle,
   loading: state.singlePickle.loading,
   error: state.singlePickle.error
@@ -51,7 +85,8 @@ const mapState = state => ({
 
 const mapDispatch = dispatch => ({
   loadPickle: pickleId => dispatch(fetchSinglePickle(pickleId)),
-  addToCart: (item, qty) => dispatch(updateCart(item, qty))
+  addToCart: (item, qty) => dispatch(updateCart(item, qty)),
+  deletePickle: pickle => dispatch(deleteSinglePickle(pickle))
 })
 
 export default connect(mapState, mapDispatch)(SinglePickle)

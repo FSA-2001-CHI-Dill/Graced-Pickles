@@ -8,17 +8,15 @@ import {Link} from 'react-router-dom'
  */
 export const UserHome = props => {
   const {email, isAdmin} = props
-  console.log(props)
   return (
     <div>
       <h3>Welcome, {email}</h3>
-      <h4>
-        {isAdmin && (
-          <div>
-            <Link to="/users"> Show Me All Users </Link>
-          </div>
-        )}
-      </h4>
+      {isAdmin && <Link to="/pickles/add">Add Pickles</Link>}
+      {isAdmin && (
+        <div>
+          <Link to="/users"> Show Me All Users </Link>
+        </div>
+      )}
     </div>
   )
 }
