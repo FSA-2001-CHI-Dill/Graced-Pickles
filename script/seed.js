@@ -10,7 +10,7 @@ async function seed() {
 
   const createAdmin = async () => {
     await User.create({
-      email: 'admin',
+      email: 'admin@email.com',
       password: 'password',
       isAdmin: true
     })

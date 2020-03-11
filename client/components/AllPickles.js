@@ -16,8 +16,9 @@ class AllPickles extends Component {
 
     return pickles.map(pickle => (
       <div key={pickle.id}>
-        <Link to={`/pickles/${pickle.id}`}> {pickle.title} </Link>$
-        {(pickle.price / 100).toFixed(2)}
+        <Link to={`/pickles/${pickle.id}`}> {pickle.title} </Link>
+        ${(pickle.price / 100).toFixed(2)}
+        <img src={pickle.imageUrl} />
       </div>
     ))
   }

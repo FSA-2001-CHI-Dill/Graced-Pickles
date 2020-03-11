@@ -8,7 +8,11 @@ import AllPickles from './components/AllPickles.js'
 import SinglePickle from './components/SinglePickle.js'
 import Cart from './components/Cart.js'
 import AddPickle from './components/AddUpdatePickle'
+import Checkout from './components/Checkout'
+import Confirmation from './components/Confirmation'
+import Orders from './components/Orders'
 import AllUsers from './components/AllUsers'
+import SingleOrder from './components/SingleOrder'
 
 /**
  * COMPONENT
@@ -37,6 +41,17 @@ class Routes extends Component {
             <Route path="/pickles/:pickleId" component={SinglePickle} />
             <Route path="/pickles" component={AllPickles} />
             <Route path="/cart" component={Cart} />
+            <Route path="/checkout" component={Checkout} />
+            <Route
+              path="/success"
+              render={props => <Confirmation success={true} {...props} />}
+            />
+            <Route
+              path="/fail"
+              render={props => <Confirmation success={false} {...props} />}
+            />
+            <Route path="/orders/:orderId" component={SingleOrder} />
+            <Route path="/orders" component={Orders} />
           </Switch>
         )}
         {/* Routes placed here are available to all visitors */}
@@ -45,7 +60,7 @@ class Routes extends Component {
         <Route path="/pickles/:pickleId" component={SinglePickle} />
         <Route path="/pickles" component={AllPickles} />
         <Route path="/cart" component={Cart} />
-
+        <Route path="/checkout" component={Checkout} />
         {/* Displays our Login component as a fallback */}
         <Route component={Login} />
       </Switch>

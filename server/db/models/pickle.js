@@ -32,7 +32,8 @@ const Pickle = db.define('pickle', {
   },
   imageUrl: {
     type: Sequelize.TEXT,
-    defaultValue: 'https://i.ya-webdesign.com/images/pickle-rick-dab-png-2.png'
+    defaultValue:
+      'https://www.clipartkey.com/mpngs/m/28-281598_pickle-clipart-full-jar-rick-and-morty-pickle.png'
   },
   spiceLevel: {
     type: Sequelize.ENUM('mild', 'medium', 'spicy'),

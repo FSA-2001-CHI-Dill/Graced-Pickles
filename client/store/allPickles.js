@@ -40,12 +40,10 @@ export const fetchPickles = () => {
 export const addNewPickle = pickle => {
   return async dispatch => {
     try {
-      dispatch(picklesLoadStart())
       const {data} = await axios.post('/api/pickles', pickle)
       dispatch(addPickle(data))
     } catch (err) {
       console.log('Something went wrong!', err)
-      dispatch(picklesLoadingError(err))
     }
   }
 }
@@ -53,12 +51,10 @@ export const addNewPickle = pickle => {
 export const deleteSinglePickle = pickle => {
   return async dispatch => {
     try {
-      dispatch(picklesLoadStart())
       const {data} = await axios.delete(`/api/pickles/${pickle.id}`)
       dispatch(setPickles(data))
     } catch (err) {
       console.log('Something went wrong!', err)
-      dispatch(picklesLoadingError(err))
     }
   }
 }
