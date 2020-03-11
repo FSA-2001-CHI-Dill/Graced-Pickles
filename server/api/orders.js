@@ -44,7 +44,7 @@ router.get('/me', requireLogin, async (req, res, next) => {
 })
 
 //fetching single order
-router.get('/:orderId', requireLogin, async (req, res, next) => {
+router.get('/:orderId', async (req, res, next) => {
   try {
     const order = await Order.findByPk(req.params.orderId, {
       include: [
@@ -54,6 +54,7 @@ router.get('/:orderId', requireLogin, async (req, res, next) => {
         }
       ]
     })
+    console.log(order)
     if (order) {
       res.json(order)
     } else {
@@ -65,7 +66,7 @@ router.get('/:orderId', requireLogin, async (req, res, next) => {
   }
 })
 
-router.put('/success', requireLogin, async (req, res, next) => {
+router.put('/:orderId/success', requireLogin, async (req, res, next) => {
   try {
     const [, updatedOrder] = await Order.update(
       {
@@ -74,7 +75,8 @@ router.put('/success', requireLogin, async (req, res, next) => {
       },
       {
         where: {
-          userId: req.user.id
+          userId: req.user.id,
+          id: req.params.orderId
         },
         returning: true,
         plain: true
@@ -87,7 +89,7 @@ router.put('/success', requireLogin, async (req, res, next) => {
   }
 })
 
-router.put('/fail', requireLogin, async (req, res, next) => {
+router.put('/:orderId/fail', requireLogin, async (req, res, next) => {
   try {
     const [, updatedOrder] = await Order.update(
       {
@@ -96,7 +98,8 @@ router.put('/fail', requireLogin, async (req, res, next) => {
       },
       {
         where: {
-          userId: req.user.id
+          userId: req.user.id,
+          id: req.params.orderId
         },
         returning: true,
         plain: true

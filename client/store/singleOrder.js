@@ -31,6 +31,17 @@ export const fetchSingleOrder = orderId => {
   }
 }
 
+export const confirmOrder = orderId => {
+  return async dispatch => {
+    try {
+      const {data} = await axios.put(`/api/orders/${orderId}/success`)
+      dispatch(selectOrder(data))
+    } catch (err) {
+      console.log('Something went wrong!', err)
+    }
+  }
+}
+
 const singleOrderReducer = (
   singleOrder = {order: {}, loading: false, error: null},
   action
