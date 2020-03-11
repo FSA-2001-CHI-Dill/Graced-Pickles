@@ -11,7 +11,6 @@ class SingleOrder extends Component {
   }
 
   render() {
-    console.log(this.props.order)
     const {order, loading, error} = this.props
     if (loading || !order.id) return <h2>Loading</h2>
     if (error) return <h2>Something went wrong</h2>
