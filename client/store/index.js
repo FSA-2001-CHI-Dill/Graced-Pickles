@@ -6,6 +6,8 @@ import user from './user'
 import allPickles from './allPickles'
 import singlePickle from './singlePickle'
 import cart from './cart'
+import allOrders from './allOrders'
+import singleOrder from './singleOrder'
 import allUsers from './allUsers'
 
 const reducer = combineReducers({
@@ -13,11 +15,15 @@ const reducer = combineReducers({
   allPickles,
   singlePickle,
   cart,
+  allOrders,
+  singleOrder,
   allUsers
 })
+
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
 )
+
 const store = createStore(reducer, middleware)
 
 export default store
