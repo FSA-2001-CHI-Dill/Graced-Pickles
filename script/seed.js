@@ -48,12 +48,50 @@ async function seed() {
     })
   }
 
+  const orders = async numOfEntries => {
+    await createData(numOfEntries, async () => {
+      await Order.create({
+        status: ['created', 'processing', 'cancelled', 'completed'][
+          Math.floor(Math.random()) * 4
+        ],
+        orderDate: faker.date.past(),
+        userId: Math.floor(Math.random() * 99) + 1
+      })
+    })
+  }
+
+  const orderItems = async numOfEntries => {
+    await createData(numOfEntries, async () => {
+      const pickleId = Math.floor(Math.random() * 100)
+      const pickle = await Pickle.findByPk(pickleId)
+      const qty = Math.floor(Math.random() * 10)
+
+      await OrderItem.create({
+        qty,
+        pickleId,
+        price: pickle.price * qty,
+        orderId: Math.floor(Math.random() * 99) + 1
+      })
+    })
+  }
+
+  const reviews = async numOfEntries => {
+    await createData(numOfEntries, async () => {
+      await Review.create({
+        content: faker.lorem.paragraph(),
+        userId: Math.floor(Math.random() * 99) + 1,
+        pickleId: Math.floor(Math.random() * 99) + 1
+      })
+    })
+  }
+
   try {
     await createAdmin()
     await users(100)
     await pickles(100)
-    // await orders(100)
-    // await orderItems(100)
+    await orders(100)
+    await orderItems(100)
+    await reviews(6000)
     console.log(`seeded successfully`)
   } catch (err) {
     console.log(err)
