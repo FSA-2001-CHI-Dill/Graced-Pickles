@@ -31,19 +31,33 @@ class AllUsers extends React.Component {
     return (
       <div>
         <h1>All Users</h1>
-        {users.map(user => (
-          <div key={user.id}>
-            <h2>User #{user.id}:</h2>
-            <h3>{user.email}</h3>
-            <p>Administrator? {user.isAdmin ? 'YES' : 'NO'}</p>
-            <button type="button" onClick={() => this.makeAdmin(user)}>
-              Promote to Admin
-            </button>
-            <button type="button" onClick={() => this.deleteClick(user)}>
-              Remove User
-            </button>
-          </div>
-        ))}
+        <div className="card-columns">
+          {users.map(user => (
+            <div className="card" key={user.id}>
+              <div className="card-body">
+                <h5 className="card-title">User #{user.id}</h5>
+                <p className="card-text">{user.email}</p>
+                <p className="card-text">
+                  Administrator? {user.isAdmin ? 'YES' : 'NO'}
+                </p>
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => this.makeAdmin(user)}
+                >
+                  Promote to Admin
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-danger"
+                  onClick={() => this.deleteClick(user)}
+                >
+                  Remove User
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     )
   }

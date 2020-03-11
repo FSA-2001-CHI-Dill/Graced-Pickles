@@ -13,9 +13,18 @@ label {
 nav a {
   display: inline-block;
   margin: 1em;
+  color: #a3a3a3;
+}
+
+a:hover {
+  color: #cadb7a;
 }
 
 form div {
   margin: 1em;
   display: inline-block;
+}
+
+.jumbotron-fluid {
+  background-color: #cadb7a;
 }
