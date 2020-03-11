@@ -14,13 +14,21 @@ class AllPickles extends Component {
     if (loading) return <h2> Loading </h2>
     if (error) return <h2> Something went wrong! </h2>
 
-    return pickles.map(pickle => (
-      <div key={pickle.id}>
-        <Link to={`/pickles/${pickle.id}`}> {pickle.title} </Link>
-        ${(pickle.price / 100).toFixed(2)}
-        <img src={pickle.imageUrl} />
+    return (
+      <div className="card-columns">
+        {pickles.map(pickle => (
+          <div className="card" key={pickle.id}>
+            <img src={pickle.imageUrl} className="card-img-top" />
+            <div className="card-body">
+              <p className="card-text">
+                <Link to={`/pickles/${pickle.id}`}> {pickle.title} </Link>
+              </p>
+              <p className="card-text">${(pickle.price / 100).toFixed(2)}</p>
+            </div>
+          </div>
+        ))}
       </div>
-    ))
+    )
   }
 }
 
