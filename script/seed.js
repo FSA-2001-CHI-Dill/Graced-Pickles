@@ -8,6 +8,14 @@ async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
 
+  const createAdmin = async () => {
+    await User.create({
+      email: 'admin',
+      password: 'password',
+      isAdmin: true
+    })
+  }
+
   const createData = async (numOfEntries, create) => {
     for (let i = 0; i < numOfEntries; i++) {
       try {
@@ -41,6 +49,7 @@ async function seed() {
   }
 
   try {
+    await createAdmin()
     await users(100)
     await pickles(100)
     // await orders(100)
