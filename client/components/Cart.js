@@ -60,17 +60,21 @@ class Cart extends React.Component {
             </div>
           ))}
           <br />
-          Total: $
-          {cart
-            .reduce((acc, item) => {
-              return acc + item.qty * item.price / 100
-            }, 0)
-            .toFixed(2)}
+          <h5>
+            Total: $
+            {cart
+              .reduce((acc, item) => {
+                return acc + item.qty * item.price / 100
+              }, 0)
+              .toFixed(2)}
+          </h5>
           <br />
           <br />
-          <Link to="/checkout" onClick={this.checkoutClick}>
-            Proceed to Checkout
-          </Link>
+          <p>
+            <Link to="/checkout" onClick={this.checkoutClick}>
+              Proceed to Checkout
+            </Link>
+          </p>
         </div>
       )
   }
