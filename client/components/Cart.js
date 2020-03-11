@@ -21,7 +21,6 @@ class Cart extends React.Component {
 
   render() {
     const {cart} = this.props
-
     if (cart.length === 0 || !cart) {
       return (
         <div>
@@ -70,7 +69,7 @@ class Cart extends React.Component {
           <br />
           <br />
           <Link to="/checkout" onClick={this.checkoutClick}>
-            Checkout:{' '}
+            Proceed to Checkout
           </Link>
         </div>
       )

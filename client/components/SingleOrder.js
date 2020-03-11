@@ -14,38 +14,42 @@ class SingleOrder extends Component {
     const {order, loading, error} = this.props
     if (loading || !order.id) return <h2>Loading</h2>
     if (error) return <h2>Something went wrong</h2>
-    return (
-      <div>
-        <div>Status: {order.status}</div>
-        <div>Order Date: {moment(order.orderDate).format('MM-DD-YYYY')}</div>
+    else
+      return (
         <div>
-          Item(s):
-          {order.orderItems.map(item => (
-            <div key={item.id}>
-              <Link to={`/pickles/${item.pickle.id}`}>
+          <div>Status: {order.status}</div>
+          <div>
+            Order Date & Time:{' '}
+            {moment(order.orderDate).format('YYYY-MM-DD HH:mm:ss')}
+          </div>
+          <div>
+            Item(s):
+            {order.orderItems.map(item => (
+              <div key={item.id}>
+                <Link to={`/pickles/${item.pickle.id}`}>
+                  {' '}
+                  {item.pickle.title}{' '}
+                </Link>
+                <p>Price per item: ${(item.pickle.price / 100).toFixed(2)} </p>
+                <p>Quantity: {item.qty} </p>
+              </div>
+            ))}
+            {order.status === 'completed' ? (
+              <p>
                 {' '}
-                {item.pickle.title}{' '}
-              </Link>
-              <p>Price per item: ${(item.pickle.price / 100).toFixed(2)} </p>
-              <p>Quantity: {item.qty} </p>
-            </div>
-          ))}
-          {order.status === 'completed' ? (
-            <p>
-              {' '}
-              Total Amount: $
-              {order.orderItems
-                .reduce((acc, item) => {
-                  return acc + item.qty * item.price / 100
-                }, 0)
-                .toFixed(2)}
-            </p>
-          ) : (
-            <p> Amount Charged: $0.00</p>
-          )}
+                Total Amount: $
+                {order.orderItems
+                  .reduce((acc, item) => {
+                    return acc + item.qty * item.price / 100
+                  }, 0)
+                  .toFixed(2)}
+              </p>
+            ) : (
+              <p> Amount Charged: $0.00</p>
+            )}
+          </div>
         </div>
-      </div>
-    )
+      )
   }
 }
 

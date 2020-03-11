@@ -10,7 +10,7 @@ router.get('/', async (req, res, next) => {
       order = await Order.findOne({
         where: {
           userId: req.user.id,
-          status: 'created'
+          status: ['created', 'processing']
         }
       })
     } else if (req.session.cart) {
