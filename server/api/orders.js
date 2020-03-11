@@ -2,9 +2,7 @@ const router = require('express').Router()
 const {Pickle, Review, Order, OrderItem} = require('../db/models')
 const {requireLogin, requireAdmin} = require('../util')
 const {stripeKey} = require('../../secrets')
-const stripe = require('stripe')(
-  stripeKey || 'pk_test_ixYHMYf83vAdUAFX2jYPfg9u00Jk5sO3XV'
-)
+const stripe = require('stripe')(stripeKey)
 const uuid = require('uuid/v4')
 
 module.exports = router
