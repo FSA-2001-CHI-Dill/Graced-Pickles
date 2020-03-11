@@ -1,21 +1,27 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {confirmOrder} from '../store/singleOrder'
 import {Link} from 'react-router-dom'
-import CheckoutForm from './CheckoutForm'
 import StripeCheckout from 'react-stripe-checkout'
+import axios from 'axios'
 
 const Checkout = props => {
-  const onToken = (token, addresses) => {
-    fetch('/save-stripe-token', {
-      method: 'POST',
-      body: JSON.stringify(token)
-    }).then(response => {
-      response.json().then(data => {
-        alert(`We are in business, ${data.email}`)
-      })
-    })
+  const total = props.cart.reduce((acc, item) => {
+    return acc + item.qty * item.price / 100
+  }, 0)
+
+  const onToken = async token => {
+    try {
+      const {status} = await axios.post('/api/orders/checkout', {token, total})
+      if (status === 200) {
+        props.history.push('/success')
+      } else {
+        props.history.push('/fail')
+      }
+    } catch (err) {
+      console.log(err)
+    }
   }
+
   const {isLoggedin, cart, loading, error} = props
 
   if (!isLoggedin) {
@@ -27,7 +33,6 @@ const Checkout = props => {
     return (
       <div>
         <h1>Checkout</h1>
-        <CheckoutForm />
 
         {cart.map(item => (
           <div key={item.id}>
@@ -36,11 +41,7 @@ const Checkout = props => {
             <p>Price per item: ${(item.pickle.price / 100).toFixed(2)} </p>
             <br />
             Total: $
-            {cart
-              .reduce((acc, item) => {
-                return acc + item.qty * item.price / 100
-              }, 0)
-              .toFixed(2)}
+            {total.toFixed(2)}
           </div>
         ))}
         <StripeCheckout
@@ -48,9 +49,8 @@ const Checkout = props => {
           stripeKey="pk_test_ixYHMYf83vAdUAFX2jYPfg9u00Jk5sO3XV"
           billingAddress
           shippingAddress
-          amount
+          amount={total * 100}
         />
-        <Link to="/confirmation">Confirmation</Link>
       </div>
     )
   }
@@ -63,8 +63,4 @@ const mapState = state => ({
   error: state.cart.error
 })
 
-const mapDispatch = dispatch => ({
-  confirmOrder: () => dispatch(confirmOrder())
-})
-
-export default connect(mapState, mapDispatch)(Checkout)
+export default connect(mapState)(Checkout)

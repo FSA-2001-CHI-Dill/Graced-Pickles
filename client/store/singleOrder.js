@@ -3,7 +3,6 @@ import axios from 'axios'
 const ORDER_LOAD_START = 'ORDER_LOAD_START'
 const SELECT_ORDER = 'SELECT_ORDER'
 const ORDER_LOAD_ERROR = 'ORDER_LOAD_ERROR'
-const UPDATE_ORDER = 'UPDATE_ORDER'
 
 const orderLoadStart = () => ({
   type: ORDER_LOAD_START
@@ -19,28 +18,11 @@ const orderLoadingError = err => ({
   err
 })
 
-const updateOrder = order => ({
-  type: UPDATE_ORDER,
-  order
-})
-
 export const fetchSingleOrder = orderId => {
   return async dispatch => {
     try {
       dispatch(orderLoadStart())
       const {data} = await axios.get(`/api/orders/${orderId}`)
-      dispatch(selectOrder(data))
-    } catch (err) {
-      console.log('Something went wrong!', err)
-      dispatch(orderLoadingError(err))
-    }
-  }
-}
-
-export const confirmOrder = () => {
-  return async dispatch => {
-    try {
-      const {data} = await axios.put('/api/orders/confirm')
       dispatch(selectOrder(data))
     } catch (err) {
       console.log('Something went wrong!', err)

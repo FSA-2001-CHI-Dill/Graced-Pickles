@@ -5,6 +5,7 @@ const {stripeKey} = require('../../secrets')
 const stripe = require('stripe')(
   stripeKey || 'pk_test_ixYHMYf83vAdUAFX2jYPfg9u00Jk5sO3XV'
 )
+const uuid = require('uuid/v4')
 
 module.exports = router
 
@@ -48,19 +49,25 @@ router.get('/me', requireLogin, async (req, res, next) => {
 router.get('/:orderId', requireLogin, async (req, res, next) => {
   try {
     const order = await Order.findByPk(req.params.orderId, {
-      include: [OrderItem]
+      include: [
+        {
+          model: OrderItem,
+          include: [Pickle]
+        }
+      ]
     })
     if (order) {
       res.json(order)
     } else {
       res.sendStatus(404)
     }
+    console.log(order)
   } catch (err) {
     next(err)
   }
 })
 
-router.put('/confirm', requireLogin, async (req, res, next) => {
+router.put('/success', requireLogin, async (req, res, next) => {
   try {
     const [, updatedOrder] = await Order.update(
       {
@@ -75,27 +82,68 @@ router.put('/confirm', requireLogin, async (req, res, next) => {
         plain: true
       }
     )
-    if (updatedOrder) {
-      res.json(updatedOrder)
-    } else {
-      res.sendStatus(500)
-    }
+
+    res.json(updatedOrder)
   } catch (err) {
     next(err)
   }
 })
 
-router.post('/', async (req, res, next) => {
+router.put('/fail', requireLogin, async (req, res, next) => {
   try {
-    ;(async () => {
-      const paymentIntent = await stripe.paymentIntents.create({
-        amount: 1000,
+    const [, updatedOrder] = await Order.update(
+      {
+        status: 'cancelled',
+        orderDate: Date.now()
+      },
+      {
+        where: {
+          userId: req.user.id
+        },
+        returning: true,
+        plain: true
+      }
+    )
+
+    res.json(updatedOrder)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.post('/checkout', requireLogin, async (req, res, next) => {
+  try {
+    const {total, token} = req.body
+
+    const customer = await stripe.customers.create({
+      email: token.email,
+      source: token.id
+    })
+
+    const idempotencyKey = uuid()
+
+    const result = await stripe.charges.create(
+      {
+        amount: total * 100,
         currency: 'usd',
-        payment_method_types: ['card'],
-        receipt_email: 'jenny.rosen@example.com'
-      })
-      res.json(paymentIntent)
-    })()
+        customer: customer.id,
+        description: 'Purchased graced pickles',
+        shipping: {
+          name: token.card.name,
+          address: {
+            line1: token.card.address_line1,
+            line2: token.card.address_line2,
+            city: token.card.address_city,
+            country: token.card.address_country,
+            postal_code: token.card.address_zip
+          }
+        },
+        receipt_email: token.email
+      },
+      {idempotencyKey}
+    )
+    if (result) res.status(200).json(result)
+    else res.sendStatus(400)
   } catch (err) {
     next(err)
   }

@@ -12,6 +12,7 @@ import Checkout from './components/Checkout'
 import Confirmation from './components/Confirmation'
 import Orders from './components/Orders'
 import AllUsers from './components/AllUsers'
+import SingleOrder from './components/SingleOrder'
 
 /**
  * COMPONENT
@@ -41,7 +42,15 @@ class Routes extends Component {
             <Route path="/pickles" component={AllPickles} />
             <Route path="/cart" component={Cart} />
             <Route path="/checkout" component={Checkout} />
-            <Route path="/confirmation" component={Confirmation} />
+            <Route
+              path="/success"
+              render={props => <Confirmation success={true} {...props} />}
+            />
+            <Route
+              path="/fail"
+              render={props => <Confirmation success={false} {...props} />}
+            />
+            <Route path="/orders/:orderId" component={SingleOrder} />
             <Route path="/orders" component={Orders} />
           </Switch>
         )}

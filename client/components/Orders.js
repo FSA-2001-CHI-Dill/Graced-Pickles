@@ -1,8 +1,7 @@
 import React, {Component} from 'react'
-import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {fetchUserOrders} from '../store/allOrders'
-const moment = require('moment')
+import {Link} from 'react-router-dom'
 
 class Orders extends Component {
   componentDidMount() {
@@ -19,32 +18,10 @@ class Orders extends Component {
     } else {
       return orders.map((order, index) => (
         <div key={order.id}>
-          <div>Order #{index + 1}</div>
+          <Link to={`/orders/${order.id}`}>
+            <h3> Order #{index + 1}</h3>
+          </Link>
           <div>Status: {order.status}</div>
-          <div>Order Date: {moment(order.orderDate).format('MM-DD-YYYY')}</div>
-          <div>
-            Item(s):
-            {order.orderItems.map(item => (
-              <div key={item.id}>
-                <p>{item.pickle.title} </p>
-                <p>Price per item: ${(item.pickle.price / 100).toFixed(2)} </p>
-                <p>Quantity: {item.qty} </p>
-              </div>
-            ))}
-            {order.status === 'completed' ? (
-              <p>
-                {' '}
-                Total Amount: $
-                {order.orderItems
-                  .reduce((acc, item) => {
-                    return acc + item.qty * item.price / 100
-                  }, 0)
-                  .toFixed(2)}
-              </p>
-            ) : (
-              <p> Amount Charged: $0.00</p>
-            )}
-          </div>
         </div>
       ))
     }

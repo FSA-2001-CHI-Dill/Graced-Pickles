@@ -1,27 +1,37 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {fetchCart} from '../store/cart'
 import {Link} from 'react-router-dom'
-import {confirmOrder} from '../store/singleOrder'
 const moment = require('moment')
+import axios from 'axios'
 
 class Confirmation extends Component {
-  componentDidMount() {
-    this.props.confirmOrder()
+  async componentDidMount() {
+    if (this.props.success) {
+      await axios.put('/api/orders/success')
+    } else {
+      await axios.put('/api/orders/fail')
+    }
   }
 
   render() {
-    const {order, loading, error} = this.props
+    const {order, loading, error, success} = this.props
 
     if (loading) return 'loading'
     if (error) return 'Something went wrong'
-    else
+    if (success)
       return (
         <div>
-          Thank you for shopping with us!
-          <p>Order placed on: {moment(order.orderDate).format('MM-DD-YYYY')}</p>
+          <h2>Thank you for shopping with us! </h2>
+          <p>
+            Your order has been placed on:{' '}
+            {moment(order.orderDate).format('MM-DD-YYYY')}
+          </p>
+          <p> Please Check your email for details.</p>
+          <Link to={`/orders/${order.id}`}>View order details</Link>
         </div>
       )
+    if (!success)
+      return <div>We could not complete your order. Please try again!</div>
   }
 }
 const mapState = state => ({
@@ -31,8 +41,4 @@ const mapState = state => ({
   error: state.singleOrder.error
 })
 
-const mapDispatch = dispatch => ({
-  confirmOrder: () => dispatch(confirmOrder())
-})
-
-export default connect(mapState, mapDispatch)(Confirmation)
+export default connect(mapState)(Confirmation)
