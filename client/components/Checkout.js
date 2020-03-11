@@ -9,6 +9,10 @@ const Checkout = props => {
     return acc + item.qty * item.price / 100
   }, 0)
 
+  const totalQty = props.cart.reduce((acc, item) => {
+    return acc + item.qty
+  }, 0)
+
   const onToken = async token => {
     try {
       const {status} = await axios.post('/api/orders/checkout', {token, total})
@@ -19,6 +23,7 @@ const Checkout = props => {
       }
     } catch (err) {
       console.log(err)
+      props.history.push('/fail')
     }
   }
 
@@ -27,7 +32,7 @@ const Checkout = props => {
   if (!isLoggedin) {
     return <div>Please log in/sign up to continue!</div>
   }
-  if (cart.length === 0) {
+  if (!cart || cart.length === 0) {
     return <div>"Your cart is empty"</div>
   } else {
     return (
@@ -38,12 +43,12 @@ const Checkout = props => {
           <div key={item.id}>
             <Link to={`/pickles/${item.pickle.id}`}>{item.pickle.title}</Link>
             <p>Quantity: {item.qty}</p>
-            <p>Price per item: ${(item.pickle.price / 100).toFixed(2)} </p>
-            <br />
-            Total: $
-            {total.toFixed(2)}
+            <p>Price: ${(item.pickle.price / 100).toFixed(2)} </p>
           </div>
         ))}
+        <h2>
+          Subtotal ({totalQty} items): ${total.toFixed(2)}{' '}
+        </h2>
         <StripeCheckout
           token={onToken}
           stripeKey="pk_test_ixYHMYf83vAdUAFX2jYPfg9u00Jk5sO3XV"

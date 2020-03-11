@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {fetchUserOrders} from '../store/allOrders'
 import {Link} from 'react-router-dom'
+const moment = require('moment')
 
 class Orders extends Component {
   componentDidMount() {
@@ -22,6 +23,7 @@ class Orders extends Component {
             <h3> Order #{index + 1}</h3>
           </Link>
           <div>Status: {order.status}</div>
+          <div>Order Date: {moment(order.orderDate).format('YYYY-MM-DD')}</div>
         </div>
       ))
     }
