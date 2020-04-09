@@ -4,7 +4,7 @@ node_js:
 services:
   - postgresql # starts up postgres
 addons:
-  postgresql: '10' # recent postgres version on Travis
+  postgresql: "10" # recent postgres version on Travis
 dist: xenial # uses xenial environment
 notifications:
   email:
@@ -15,14 +15,16 @@ install:
 before_script:
   - psql -c 'create database "boilermaker-test";' -U postgres # remember to change this name if you change it elsewhere (e.g. package.json)
 script:
-  - npm test             # test the code
+  - npm test # test the code
   - npm run build-client # make the bundle
-
-# before_deploy:
-#   - rm -rf node_modules # omit from the tarball, since we skip cleanup
-# deploy:
-#   skip_cleanup: true # prevents travis from deleting the build
-#   provider: heroku
-#   app: YOUR-HEROKU-APP-NAME-HERE # see README
-#   api_key:
-#     secure: YOUR-***ENCRYPTED***-API-KEY-HERE # see README
+before_deploy: # omit node_modules, since we set skip_cleanup below
+  - rm -rf node_modules
+deploy: # see README for details on these keys
+  # prevents travis from deleting the build
+  skip_cleanup: true
+  provider: heroku
+  # app should be your heroku app name; see README
+  app: graced-pickles
+  # the secure key indicates an encrypted value; see README
+  api_key:
+    secure: nPwSGDqg2zwQy9ps2U0Ul+MSpsVbNMjNiqW1cEZyhJiFGqIOROG8ehT2XKQHe0zToaFaOgih/W1D97X5WB4MbMs5Jc424T4qTZXKg7XptepsMy6YxeHqochnaRxR2QoPvqpdGlauH5LWwjWBme/mEcQTsHzo8XbbbHfHne97Jp0wI01KmAter7RfoY11kw3dRraoxSNZaHLq1n6MbUH+R1FyAIzNneQhJ+AZIfpCVQEQCOX/zyGBrH+iZCELTVvTyD7S7uac5TKIJ0ES94LmEfjl22MqDQW+s1J8AcvKdvv9DV1rpSLaTlUMbBiGIpUy4ptA76GkhSfk1qjkdQ3S50WT6aNHrHRZIz9EHniOdLRTmo0djYkU5nQGMMYD5eDg29DjRQrEeIQoPHDskbjhp7lrICLMe/d4KDGI9c1RlT4Aj5bhlRhSBqQHXBRZ/gqMSzn3GTMMgweJYun6R/KepCeFjP5COHbBBTcJkkAwGUrCWki69YLwA6883bSaXvBI8CUjQvSw6xMhye8rQpzdY5IS29yfXcDiqH7eCwBr5bIjPQveHEg5Xck1QenCW/5ysqsSD9fZ6V5kDU+tyOocC2pVTOthzljVkuWqHIl0VhX9wlhboedLltXYUnxwobuRYVZNb3PnPA5mRCiXvKPRjQp+6ezY9mI40gD2p7kms7Q=
