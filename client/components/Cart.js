@@ -21,7 +21,7 @@ class Cart extends React.Component {
 
   render() {
     const {cart} = this.props
-    if (cart.length === 0 || !cart) {
+    if (!cart || cart === undefined || cart.length === 0) {
       return (
         <div>
           <h1>Your Shopping Cart is Empty!</h1>
