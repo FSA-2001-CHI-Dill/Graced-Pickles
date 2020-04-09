@@ -1,19 +1,63 @@
 'use strict'
+const faker = require('faker')
 
 const db = require('../server/db')
-const {User} = require('../server/db/models')
+const {Order, Pickle, User, Review, OrderItem} = require('../server/db/models')
 
 async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
 
-  const users = await Promise.all([
-    User.create({email: 'cody@email.com', password: '123'}),
-    User.create({email: 'murphy@email.com', password: '123'})
-  ])
+  const createAdmin = async () => {
+    await User.create({
+      email: 'admin@email.com',
+      password: 'password',
+      isAdmin: true
+    })
+  }
 
-  console.log(`seeded ${users.length} users`)
-  console.log(`seeded successfully`)
+  const createData = async (numOfEntries, create) => {
+    for (let i = 0; i < numOfEntries; i++) {
+      try {
+        await create()
+      } catch (err) {
+        console.log(err)
+      }
+    }
+  }
+
+  const users = async numOfEntries => {
+    await createData(numOfEntries, async () => {
+      await User.create({
+        email: faker.internet.email(),
+        password: faker.internet.password()
+      })
+    })
+  }
+
+  const pickles = async numOfEntries => {
+    await createData(numOfEntries, async () => {
+      await Pickle.create({
+        title: faker.lorem.word(),
+        description: faker.lorem.sentence(),
+        price: faker.random.number({min: 100, max: 10000}),
+        inventory: faker.random.number(),
+        vegetarian: faker.random.boolean(),
+        spiceLevel: ['mild', 'medium', 'spicy'][Math.floor(Math.random() * 3)]
+      })
+    })
+  }
+
+  try {
+    await createAdmin()
+    await users(100)
+    await pickles(100)
+    // await orders(100)
+    // await orderItems(100)
+    console.log(`seeded successfully`)
+  } catch (err) {
+    console.log(err)
+  }
 }
 
 // We've separated the `seed` function from the `runSeed` function.
