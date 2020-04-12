@@ -1,11 +1,11 @@
 const router = require('express').Router()
 const {Pickle, Review, Order, OrderItem} = require('../db/models')
 const {requireLogin, requireAdmin} = require('../util')
-// let stripeKey
-// if (process.env.NODE_ENV !== 'production') {
-//   stripeKey = require('../../stripe').stripeKey
-// } else stripeKey = process.env.STRIPEKEY
-const stripeKey = require('../../stripe')
+let stripeKey
+if (process.env.NODE_ENV !== 'production') {
+  stripeKey = require('../../server')
+} else stripeKey = process.env.STRIPEKEY
+
 const stripe = require('stripe')(stripeKey)
 const uuid = require('uuid/v4')
 
