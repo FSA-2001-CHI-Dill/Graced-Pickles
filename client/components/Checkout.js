@@ -13,19 +13,19 @@ const Checkout = props => {
     return acc + item.qty
   }, 0)
 
-  const onToken = async token => {
-    try {
-      const {status} = await axios.post('/api/orders/checkout', {token, total})
-      if (status === 200) {
-        props.history.push('/success')
-      } else {
-        props.history.push('/fail')
-      }
-    } catch (err) {
-      console.log(err)
-      props.history.push('/fail')
-    }
-  }
+  // const onToken = async token => {
+  //   try {
+  //     const {status} = await axios.post('/api/orders/checkout', {token, total})
+  //     if (status === 200) {
+  //       props.history.push('/success')
+  //     } else {
+  //       props.history.push('/fail')
+  //     }
+  //   } catch (err) {
+  //     console.log(err)
+  //     props.history.push('/fail')
+  //   }
+  // }
 
   const {isLoggedin, cart, loading, error} = props
 
@@ -49,13 +49,13 @@ const Checkout = props => {
         <h2>
           Subtotal ({totalQty} items): ${total.toFixed(2)}{' '}
         </h2>
-        <StripeCheckout
+        {/* <StripeCheckout
           token={onToken}
           stripeKey="pk_test_ixYHMYf83vAdUAFX2jYPfg9u00Jk5sO3XV"
           billingAddress
           shippingAddress
           amount={total * 100}
-        />
+        /> */}
       </div>
     )
   }
