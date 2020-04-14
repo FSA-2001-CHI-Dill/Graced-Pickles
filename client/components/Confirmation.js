@@ -6,12 +6,12 @@ import {confirmOrder, fetchSingleOrder} from '../store/singleOrder'
 import axios from 'axios'
 
 class Confirmation extends Component {
-  async componentDidMount() {
+  componentDidMount() {
     const orderId = this.props.cart[0].orderId
     if (this.props.success) {
       this.props.confirmOrder(orderId)
     } else {
-      await axios.put(`/api/orders/${orderId}/fail`)
+      axios.put(`/api/orders/${orderId}/fail`)
     }
   }
 
