@@ -3,7 +3,7 @@ const {Pickle, Review, Order, OrderItem} = require('../db/models')
 const {requireLogin, requireAdmin} = require('../util')
 let stripeKey
 if (process.env.NODE_ENV !== 'production') {
-  stripeKey = require('../../server')
+  stripeKey = require('../../secrets')
 } else stripeKey = process.env.STRIPEKEY
 
 const stripe = require('stripe')(stripeKey)
